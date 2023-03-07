@@ -8,7 +8,7 @@ class DashBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     var size =MediaQuery.of(context).size;   //total height of my phone
     return  Scaffold(
-      body: Stack(
+      body: Stack(     
         children: <Widget>[
           Container(height: size.height * .45 ,   //45% of total height
           decoration: BoxDecoration(

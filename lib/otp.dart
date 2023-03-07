@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'phone.dart';
+import 'dashboard.dart';
 
 class MyOtp extends StatefulWidget {
   const MyOtp({super.key});
@@ -126,10 +127,10 @@ class MyOtpState extends State<MyOtp> {
                       width: 200.0,
                       child: ElevatedButton(
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => MyOtp()),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => DashBoard()),
+                            );
                           },
                           child: Text(
                             " Verify",
