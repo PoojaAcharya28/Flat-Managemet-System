@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_app/widgets/category_card.dart';
+
+import 'login.dart';
 
 class DashBoard extends StatelessWidget {
   
@@ -8,6 +11,27 @@ class DashBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     var size =MediaQuery.of(context).size;   //total height of my phone
     return  Scaffold(
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.symmetric(horizontal:20,vertical: 10 ),
+        height: 80,
+        color: Colors.white,
+        child: Row(
+          children: <Widget>[
+            GestureDetector(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  SvgPicture.asset("assets/icons/home2.svg",
+                  ),
+                  Text("Home"),
+            
+                ],
+              ),
+            )
+
+          ],
+        ),
+      ),
       body: Stack(     
         children: <Widget>[
           Container(height: size.height * .45 ,   //45% of total height
@@ -82,30 +106,39 @@ class DashBoard extends StatelessWidget {
                       CategoryCard(
                         title: "Residents",
                         svgSrc: "assets/icons/admin.svg",
+                        press: (){
+                          //Navigator.push(context, MaterialPageRoute(builder: (context) => SecondRoute()),);
+
+                        },
                       ),
                       CategoryCard(
                         title: "Residents",
                         svgSrc: "assets/icons/admin.svg",
+                        press: (){},
                       ),
 
                       CategoryCard(
                         title: "Residents",
                         svgSrc: "assets/icons/admin.svg",
+                        press: (){},
                       ),
 
                       CategoryCard(
                         title: "Residents",
                         svgSrc: "assets/icons/admin.svg",
+                        press: (){},
                       ),
 
                       CategoryCard(
                         title: "Residents",
                         svgSrc: "assets/icons/admin.svg",
+                        press: (){},
                       ),
 
                       CategoryCard(
                         title: "Residents",
                         svgSrc: "assets/icons/admin.svg",
+                        press: (){},
                       ),
 
                   
@@ -124,48 +157,3 @@ class DashBoard extends StatelessWidget {
   }
 }
 
-class CategoryCard extends StatelessWidget {
-  final String svgSrc;
-  final String title;
-  const CategoryCard({
-    super.key, 
-    required this.svgSrc, 
-    required this.title,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      //padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(13),
-        boxShadow:[BoxShadow(offset:Offset(0, 17),
-        blurRadius: 17,
-        spreadRadius: -23,
-        color:Color.fromARGB(221, 127, 23, 23) ),
-        ]
-      ),
-      child: Material(
-        color:Colors.transparent,
-        child: InkWell(
-          
-          onTap: () {},
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: <Widget>[
-                Spacer(),
-                SvgPicture.asset(svgSrc),
-                Spacer(),
-                Text(title,  //defined in the above ....
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18.0),),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}

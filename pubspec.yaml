@@ -73,6 +73,11 @@ flutter:
    - assets/icons/menu.svg
    - assets/icons/search.svg
    - assets/icons/admin.svg
+   - assets/icons/home.svg
+   - assets/icons/home1.svg
+   - assets/icons/home2.svg
+   - assets/icons/notification.svg
+   - assets/icons/notification1.svg
    
 
   #   - images/a_dot_burr.jpeg
