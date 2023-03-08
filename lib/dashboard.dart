@@ -1,37 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_app/widgets/bottom_nav_bar.dart';
 import 'package:my_app/widgets/category_card.dart';
 
 import 'login.dart';
+import 'modules/detail_screen.dart';
 
-class DashBoard extends StatelessWidget {
+class DashBoard extends StatefulWidget {
+
+  @override
+  State<DashBoard> createState() => _DashBoardState();
+}
+
+class _DashBoardState extends State<DashBoard> {
+
+  // @override
+  // void initState() {
+
+  //   SchedulerBinding.instance.scheduleFrameCallback((timeStamp) {
+      
+  //   });
+  //   super.initState();
+  // }
   
-
   @override
   Widget build(BuildContext context) {
     var size =MediaQuery.of(context).size;   //total height of my phone
     return  Scaffold(
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(horizontal:20,vertical: 10 ),
-        height: 80,
-        color: Colors.white,
-        child: Row(
-          children: <Widget>[
-            GestureDetector(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  SvgPicture.asset("assets/icons/home2.svg",
-                  ),
-                  Text("Home"),
-            
-                ],
-              ),
-            )
-
-          ],
-        ),
-      ),
+      bottomNavigationBar: BottomNavBar(),
       body: Stack(     
         children: <Widget>[
           Container(height: size.height * .45 ,   //45% of total height
@@ -107,7 +104,7 @@ class DashBoard extends StatelessWidget {
                         title: "Residents",
                         svgSrc: "assets/icons/admin.svg",
                         press: (){
-                          //Navigator.push(context, MaterialPageRoute(builder: (context) => SecondRoute()),);
+                         // Navigator.push(context, MaterialPageRoute(builder: (context) {return DetailsScreen();}),);
 
                         },
                       ),
@@ -133,6 +130,7 @@ class DashBoard extends StatelessWidget {
                         title: "Residents",
                         svgSrc: "assets/icons/admin.svg",
                         press: (){},
+                        
                       ),
 
                       CategoryCard(
