@@ -5,7 +5,8 @@ import 'package:my_app/widgets/bottom_nav_bar.dart';
 import 'package:my_app/widgets/category_card.dart';
 
 import 'login.dart';
-import 'modules/detail_screen.dart';
+import 'modules/resident_add.dart';
+import 'modules/resident_detail_screen.dart';
 
 class DashBoard extends StatefulWidget {
 
@@ -20,6 +21,7 @@ class _DashBoardState extends State<DashBoard> {
 
   //   SchedulerBinding.instance.scheduleFrameCallback((timeStamp) {
       
+      
   //   });
   //   super.initState();
   // }
@@ -33,11 +35,11 @@ class _DashBoardState extends State<DashBoard> {
         children: <Widget>[
           Container(height: size.height * .45 ,   //45% of total height
           decoration: BoxDecoration(
-            color:Color.fromARGB(168, 206, 204, 204),        //light grey
+            //color:Color.fromARGB(168, 206, 204, 204),        //light grey
            // color:Color.fromARGB(121, 63, 63, 63),  
            // color:Color.fromARGB(194, 38, 38, 38),         //secondhand grey
             //color:Color.fromARGB(241, 142, 142, 144),  //SILVER
-            //color:Color.fromARGB(208, 73, 73, 75),     //onyx
+            color:Color.fromARGB(208, 45, 84, 94),     //onyx
           ),) ,
           
           SafeArea(
@@ -103,8 +105,13 @@ class _DashBoardState extends State<DashBoard> {
                       CategoryCard(
                         title: "Residents",
                         svgSrc: "assets/icons/admin.svg",
-                        press: (){
-                         // Navigator.push(context, MaterialPageRoute(builder: (context) {return DetailsScreen();}),);
+                        press: (){       
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ResidentInfo(),
+                              ),
+                            );
 
                         },
                       ),
