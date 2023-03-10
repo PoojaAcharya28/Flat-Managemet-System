@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.amber,
       ),
 
-      home: DashBoard(),
+      home: const ResidentInfo(),
     );
   }
 }

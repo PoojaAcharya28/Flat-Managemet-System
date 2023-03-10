@@ -113,7 +113,8 @@ class MyPhoneState extends State<MyPhone> {
                                 color: Colors.white60,
                                 fontWeight: FontWeight.normal),
                           ),
-                        )),
+                        )
+                        ),
                       ],
                     ),
                   ),
