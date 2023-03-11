@@ -5,8 +5,9 @@ import 'package:my_app/widgets/bottom_nav_bar.dart';
 import 'package:my_app/widgets/category_card.dart';
 
 import 'login.dart';
-import 'modules/resident_add.dart';
-import 'modules/resident_detail_screen.dart';
+import 'modules/Maintaince/maintaince_add.dart';
+import 'modules/Resident/resident_add.dart';
+import 'modules/Resident/resident_detail_screen.dart';
 
 class DashBoard extends StatefulWidget {
 
@@ -118,7 +119,15 @@ class _DashBoardState extends State<DashBoard> {
                       CategoryCard(
                         title: "Residents",
                         svgSrc: "assets/icons/admin.svg",
-                        press: (){},
+                        press: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Maintenance(),
+                              ),
+                            );
+
+                        },
                       ),
 
                       CategoryCard(
