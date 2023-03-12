@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../login.dart';
+import 'electrical.dart';
+import 'hvac.dart';
+import 'plumbing.dart';
+import 'structural.dart';
 
 class Maintenance extends StatefulWidget {
   const Maintenance({super.key});
@@ -374,7 +378,7 @@ class _MaintenanceState extends State<Maintenance> {
                         Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
-                                return SecondRoute();
+                                return ElectricInfo();
                               }),
                             );
                       }, child: Text("Yes")),
@@ -414,7 +418,7 @@ class _MaintenanceState extends State<Maintenance> {
                         Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
-                                return SecondRoute();
+                                return PlumbingInfo();
                               }),
                             );
                       }, child: Text("Yes")),
@@ -454,7 +458,7 @@ class _MaintenanceState extends State<Maintenance> {
                         Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
-                                return SecondRoute();
+                                return HvacInfo();
                               }),
                             );
                       }, child: Text("Yes")),
@@ -494,7 +498,7 @@ class _MaintenanceState extends State<Maintenance> {
                         Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
-                                return SecondRoute();
+                                return StructureInfo();
                               }),
                             );
                       }, child: Text("Yes")),

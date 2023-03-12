@@ -117,7 +117,7 @@ class _DashBoardState extends State<DashBoard> {
                         },
                       ),
                       CategoryCard(
-                        title: "Residents",
+                        title: "Maintenance",
                         svgSrc: "assets/icons/admin.svg",
                         press: (){
                           Navigator.push(

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-
-class ElectricInfo extends StatefulWidget {
-  const ElectricInfo({super.key});
+class HvacInfo extends StatefulWidget {
+  const HvacInfo({super.key});
 
   @override
-  State<ElectricInfo> createState() => _ElectricInfoState();
+  State<HvacInfo> createState() => _HvacInfoState();
 }
 
-class _ElectricInfoState extends State<ElectricInfo> {
+class _HvacInfoState extends State<HvacInfo> {
+
   final _formkey = GlobalKey<FormState>();
   final RegExp nameRegExp = RegExp(r'^[a-zA-Z]+$');
 
@@ -18,7 +18,7 @@ class _ElectricInfoState extends State<ElectricInfo> {
           centerTitle: true,
           backgroundColor: const Color.fromARGB(156, 44, 85, 95),
           title: const Text(
-            "Electrical Maintaince",
+            "Heating, Ventilation, and Air Conditioning",
             style: TextStyle(color: Colors.white),
           )),
       body: Container(
@@ -97,7 +97,7 @@ class _ElectricInfoState extends State<ElectricInfo> {
                     padding: EdgeInsets.all(8.0),
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "Type of Electrical Issue",
+                      "Type of HVAC Issue",
                       textAlign: TextAlign.right,
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 15.0),
@@ -110,7 +110,7 @@ class _ElectricInfoState extends State<ElectricInfo> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText:
-                        "eg: malfunctioning switch,power outage, tripped breaker",
+                        "eg: air conditioning not working, heater not turning on",
                   ),
                 ),
 
@@ -122,7 +122,7 @@ class _ElectricInfoState extends State<ElectricInfo> {
                     padding: EdgeInsets.all(8.0),
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "Location of the Electrical Issue",
+                      "Location of the HVAC Issue",
                       textAlign: TextAlign.right,
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 15.0),
@@ -163,7 +163,7 @@ class _ElectricInfoState extends State<ElectricInfo> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText:
-                        "Description of the Issue eg: sparks, burning smell",
+                        "Description of the Issue eg: strange noises, uneven temperatures",
                   ),
                 ),
 
@@ -174,7 +174,7 @@ class _ElectricInfoState extends State<ElectricInfo> {
                     padding: EdgeInsets.all(8.0),
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "Electrical Appliances Affected",
+                      "Air filters or other Components Affected",
                       textAlign: TextAlign.right,
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 15.0),
@@ -187,7 +187,7 @@ class _ElectricInfoState extends State<ElectricInfo> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText:
-                        "eg: lights, outlets, HVAC system ",
+                        "eg: fan, thermostat ",
                   ),
                 ),
 
