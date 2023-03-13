@@ -8,6 +8,7 @@ import 'login.dart';
 import 'modules/Maintaince/maintaince_add.dart';
 import 'modules/Resident/resident_add.dart';
 import 'modules/Resident/resident_detail_screen.dart';
+import 'modules/payment/payment.dart';
 
 class DashBoard extends StatefulWidget {
 
@@ -31,6 +32,7 @@ class _DashBoardState extends State<DashBoard> {
   Widget build(BuildContext context) {
     var size =MediaQuery.of(context).size;   //total height of my phone
     return  Scaffold(
+      resizeToAvoidBottomInset: false,
       bottomNavigationBar: BottomNavBar(),
       body: Stack(     
         children: <Widget>[
@@ -118,7 +120,7 @@ class _DashBoardState extends State<DashBoard> {
                       ),
                       CategoryCard(
                         title: "Maintenance",
-                        svgSrc: "assets/icons/admin.svg",
+                        svgSrc: "assets/icons/support.svg",
                         press: (){
                           Navigator.push(
                               context,
@@ -131,29 +133,38 @@ class _DashBoardState extends State<DashBoard> {
                       ),
 
                       CategoryCard(
-                        title: "Residents",
-                        svgSrc: "assets/icons/admin.svg",
-                        press: (){},
+                        title: "Payment",
+                        svgSrc: "assets/icons/receipt5.svg",
+                        press: (){
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PaymentInfo(),
+                              ),
+                            );
+                          
+                        },
                       ),
 
                       CategoryCard(
-                        title: "Residents",
-                        svgSrc: "assets/icons/admin.svg",
+                        title: "Flat Records",
+                        svgSrc: "assets/icons/flat.svg",
                         press: (){},
                       ),
 
-                      CategoryCard(
-                        title: "Residents",
-                        svgSrc: "assets/icons/admin.svg",
-                        press: (){},
+                      // CategoryCard(
+                      //   title: "Residents",
+                      //   svgSrc: "assets/icons/admin.svg",
+                      //   press: (){},
                         
-                      ),
+                      // ),
 
-                      CategoryCard(
-                        title: "Residents",
-                        svgSrc: "assets/icons/admin.svg",
-                        press: (){},
-                      ),
+                      // CategoryCard(
+                      //   title: "Residents",
+                      //   svgSrc: "assets/icons/admin.svg",
+                      //   press: (){},
+                      // ),
 
                   
                     ],

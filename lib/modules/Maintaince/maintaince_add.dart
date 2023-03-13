@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../login.dart';
+import 'calculation.dart';
 import 'electrical.dart';
 import 'hvac.dart';
 import 'plumbing.dart';
@@ -32,7 +33,7 @@ class _MaintenanceState extends State<Maintenance> {
         body: Container(
           padding: EdgeInsets.all(25.0),
           child: ListView(
-            scrollDirection: Axis.vertical,
+           
             children: [
               Form(
                   child: Column(
@@ -278,6 +279,129 @@ class _MaintenanceState extends State<Maintenance> {
                   SizedBox(
                     height: 10,
                   ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                          child: TextFormField(
+                        readOnly: true,
+                        enabled: false,
+                        decoration: InputDecoration(
+                          //labelText: "Landscaping",
+                          hintText: "Parking",
+                          hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                          border: OutlineInputBorder(
+                              //borderSide: BorderSide(color: Color.fromARGB(255, 177, 58, 58)),
+
+                              ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                        ),
+                        textAlign: TextAlign.center,
+                      )),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: TextFormField(
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: "0.00",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                        ),
+                      )),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     Expanded(
+                  //         child: TextFormField(
+                  //       readOnly: true,
+                  //       enabled: false,
+                  //       decoration: InputDecoration(
+                  //         //labelText: "Landscaping",
+                  //         hintText: "Pest Control",
+                  //         hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                  //         border: OutlineInputBorder(
+                  //             //borderSide: BorderSide(color: Color.fromARGB(255, 177, 58, 58)),
+
+                  //             ),
+                  //         contentPadding: EdgeInsets.symmetric(
+                  //             vertical: 10.0, horizontal: 10.0),
+                  //       ),
+                  //       textAlign: TextAlign.center,
+                  //     )),
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ),
+                  //     Expanded(
+                  //         child: TextFormField(
+                  //       textAlign: TextAlign.center,
+                  //       decoration: InputDecoration(
+                  //         hintText: "0.00",
+                  //         border: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(30.0),
+                  //         ),
+                  //         contentPadding: EdgeInsets.symmetric(
+                  //             vertical: 10.0, horizontal: 10.0),
+                  //       ),
+                  //     )),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     Expanded(
+                  //         child: TextFormField(
+                  //       readOnly: true,
+                  //       enabled: false,
+                  //       decoration: InputDecoration(
+                  //         //labelText: "Landscaping",
+                  //         hintText: "Flooring",
+                  //         hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                  //         border: OutlineInputBorder(
+                  //             //borderSide: BorderSide(color: Color.fromARGB(255, 177, 58, 58)),
+
+                  //             ),
+                  //         contentPadding: EdgeInsets.symmetric(
+                  //             vertical: 10.0, horizontal: 10.0),
+                  //       ),
+                  //       textAlign: TextAlign.center,
+                  //     )),
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ),
+                  //     Expanded(
+                  //         child: TextFormField(
+                  //       textAlign: TextAlign.center,
+                  //       decoration: InputDecoration(
+                  //         hintText: "0.00",
+                  //         border: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(30.0),
+                  //         ),
+                  //         contentPadding: EdgeInsets.symmetric(
+                  //             vertical: 10.0, horizontal: 10.0),
+                  //       ),
+                  //     )),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -566,25 +690,35 @@ class _MaintenanceState extends State<Maintenance> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
-                            onPressed: () {}, child: Text("Total Expenses")),
+                            onPressed: () {
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return Calculation();
+                              }),
+                            );
+
+                            }, child: Text("Calculation")),
                       ),
                       SizedBox(
                         width: 60.0,
                       ),
-                      Expanded(
-                          child: TextFormField(
-                        readOnly: true,
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: "0.00",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                      )),
+
+
+                      // Expanded(
+                      //     child: TextFormField(
+                      //   readOnly: true,
+                      //   enabled: false,
+                      //   textAlign: TextAlign.center,
+                      //   decoration: InputDecoration(
+                      //     hintText: "0.00",
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(30.0),
+                      //     ),
+                      //     contentPadding: EdgeInsets.symmetric(
+                      //         vertical: 10.0, horizontal: 10.0),
+                      //   ),
+                      // )),
                     ],
                   ),
                 ],

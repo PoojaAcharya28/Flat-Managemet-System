@@ -22,7 +22,7 @@ class _ResidentInfoState extends State<ResidentInfo> {
       TextEditingController();
   final TextEditingController homeController = TextEditingController();
   final TextEditingController adhaarController = TextEditingController();
-  final TextEditingController appartmentController = TextEditingController();
+  final TextEditingController floorController = TextEditingController();
   final TextEditingController flatNumberController = TextEditingController();
   final TextEditingController numofpeopleController = TextEditingController();
   final TextEditingController leaseController = TextEditingController();
@@ -41,7 +41,7 @@ class _ResidentInfoState extends State<ResidentInfo> {
     whatsappcontactController.dispose();
     homeController.dispose();
     adhaarController.dispose();
-    appartmentController.dispose();
+    floorController.dispose();
     flatNumberController.dispose();
     numofpeopleController.dispose();
     leaseController.dispose();
@@ -235,12 +235,12 @@ class _ResidentInfoState extends State<ResidentInfo> {
                       TextFormField(
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.other_houses),
-                          hintText: "Appartment Number",
+                          hintText: "Floor Number",
                           border: OutlineInputBorder(),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your apartment number';
+                            return 'Please enter your Floor number';
                           }
                           return null;
                         },

@@ -80,6 +80,11 @@ flutter:
    - assets/icons/notification1.svg
    - assets/icons/arrowback.svg
    - assets/icons/arrowforward.svg
+   - assets/icons/maintenance6.svg
+   - assets/icons/flat.svg
+   - assets/icons/main.svg
+   - assets/icons/support.svg
+   - assets/icons/receipt5.svg
    
 
   #   - images/a_dot_burr.jpeg
