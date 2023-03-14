@@ -36,13 +36,27 @@ class _DashBoardState extends State<DashBoard> {
       bottomNavigationBar: BottomNavBar(),
       body: Stack(     
         children: <Widget>[
+          Container(
+            color: Color(0xDCDCDC),
+          ),
+
           Container(height: size.height * .45 ,   //45% of total height
           decoration: BoxDecoration(
+            image: DecorationImage(
+              //image: AssetImage('assets/images/dashboard1.jpg'
+              //image: AssetImage('assets/images/dashboard2.jpg'      // proper
+             // image: AssetImage('assets/images/dashboard3.jpg'
+             //image: AssetImage('assets/images/download4.jpg'
+             //image: AssetImage('assets/images/download5.jpg'
+             image: AssetImage('assets/images/download6.jpg',
+             
+
+              )),
             //color:Color.fromARGB(168, 206, 204, 204),        //light grey
            // color:Color.fromARGB(121, 63, 63, 63),  
            // color:Color.fromARGB(194, 38, 38, 38),         //secondhand grey
             //color:Color.fromARGB(241, 142, 142, 144),  //SILVER
-            color:Color.fromARGB(208, 45, 84, 94),     //onyx
+           //color:Color.fromARGB(208, 45, 84, 94),     //onyx
           ),) ,
           
           SafeArea(
@@ -59,10 +73,12 @@ class _DashBoardState extends State<DashBoard> {
                       height: 52,
                       width: 52,
                       decoration: BoxDecoration(
-                        color:Color.fromARGB(77, 162, 159, 159),
+                        color:Color.fromARGB(77, 240, 235, 235),
                         shape:BoxShape.circle,
                       ),
                       child: SvgPicture.asset("assets/icons/menu.svg",
+                      color: Colors.white,
+                      
                       // height: 1,
                       // width: 1,
                       fit: BoxFit.scaleDown,),
@@ -71,8 +87,13 @@ class _DashBoardState extends State<DashBoard> {
                   ),
                   Text("PHA\nApartment",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 30.0,
+                    // shadows:[
+                    //   Shadow(color: Colors.white,
+                    //   offset: Offset(10,-10),
+                    //   blurRadius:4)
+                    // ] ,
                     fontWeight: FontWeight.bold
                   ),),
 
