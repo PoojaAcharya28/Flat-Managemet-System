@@ -1,3 +1,5 @@
+//import 'dart:ffi';
+
 import 'package:sqflite/sqflite.dart' as sql;
 
 class DatabaseHelper {
@@ -17,8 +19,7 @@ class DatabaseHelper {
         floor TEXT UNIQUE,
         flat TEXT UNIQUE,
         no_people TEXT,
-        lease TEXT,
-        move_in TEXT,
+        
 
 
 
@@ -38,14 +39,14 @@ class DatabaseHelper {
 
 
 
-  //  static Future<int> createItem(String? fname, String? lname, String? email) async {
-  //   final db = await DatabaseHelper.db();
+   static Future<int> createItem(String? fname, String? lname, String? email, int? contact, int? wcontact, String? home, int? adhaar, int? floor, int? flat, int? no_people ) async {
+    final db = await DatabaseHelper.db();
 
-  //   final data = {'title': title, 'description': descrption, 'time' : time};
-  //   final id = await db.insert('items', data,
-  //       conflictAlgorithm: sql.ConflictAlgorithm.replace);
-  //   return id;
-  // } 
+    final data = {'fname': fname, 'lname': lname, 'email' : email, 'contact':contact, 'wcontact':wcontact, 'home':home, 'adhaar':adhaar, 'floor':floor, 'flat':flat, 'no_people':no_people  };
+    final id = await db.insert('residents', data,
+        conflictAlgorithm: sql.ConflictAlgorithm.replace);
+    return id;
+  } 
 
 
 

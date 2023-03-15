@@ -25,8 +25,8 @@ class _ResidentInfoState extends State<ResidentInfo> {
   final TextEditingController floorController = TextEditingController();
   final TextEditingController flatNumberController = TextEditingController();
   final TextEditingController numofpeopleController = TextEditingController();
-  final TextEditingController leaseController = TextEditingController();
-  final TextEditingController moveinController = TextEditingController();
+  //final TextEditingController leaseController = TextEditingController();
+ // final TextEditingController moveinController = TextEditingController();
 
   final RegExp nameRegExp = RegExp(r'^[a-zA-Z]+$');
 
@@ -44,8 +44,8 @@ class _ResidentInfoState extends State<ResidentInfo> {
     floorController.dispose();
     flatNumberController.dispose();
     numofpeopleController.dispose();
-    leaseController.dispose();
-    moveinController.dispose();
+    //leaseController.dispose();
+    //moveinController.dispose();
 
     super.dispose();
   }
@@ -206,7 +206,7 @@ class _ResidentInfoState extends State<ResidentInfo> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your previous address';
+                            return 'Please enter door number';
                           }
                           return null;
                         },
@@ -280,30 +280,30 @@ class _ResidentInfoState extends State<ResidentInfo> {
                       SizedBox(
                         height: 10,
                       ),
-                      TextFormField(
-                          decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.timelapse),
-                        hintText: "Lease Duration",
-                        border: OutlineInputBorder(),
-                      )),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.date_range),
-                          hintText: "Move_in_date",
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the lease duration';
-                          } else if (!RegExp(r'^\d+$').hasMatch(value)) {
-                            return 'Please enter a valid lease duration (in months)';
-                          }
-                          return null;
-                        },
-                      ),
+                      // TextFormField(
+                      //     decoration: InputDecoration(
+                      //   prefixIcon: Icon(Icons.timelapse),
+                      //   hintText: "Lease Duration",
+                      //   border: OutlineInputBorder(),
+                      // )),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
+                      // TextFormField(
+                      //   decoration: InputDecoration(
+                      //     prefixIcon: Icon(Icons.date_range),
+                      //     hintText: "Move_in_date",
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   validator: (value) {
+                      //     if (value == null || value.isEmpty) {
+                      //       return 'Please enter the lease duration';
+                      //     } else if (!RegExp(r'^\d+$').hasMatch(value)) {
+                      //       return 'Please enter a valid lease duration (in months)';
+                      //     }
+                      //     return null;
+                      //   },
+                      // ),
                       SizedBox(
                         height: 10,
                       ),
@@ -351,7 +351,7 @@ class _ResidentInfoState extends State<ResidentInfo> {
                       SizedBox(
                         height: 10,
                       ),
-                      OutlinedButton(
+                      ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
                             Navigator.push(

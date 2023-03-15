@@ -38,6 +38,7 @@ class _DashBoardState extends State<DashBoard> {
         children: <Widget>[
           Container(
             color: Color(0xDCDCDC),
+            
           ),
 
           Container(height: size.height * .45 ,   //45% of total height
