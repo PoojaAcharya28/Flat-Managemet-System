@@ -3,9 +3,10 @@ import 'package:logger/logger.dart';
 
 import '../../database_helper.dart';
 import 'resident_detail_screen.dart';
+import 'resident_display.dart';
 import 'resident_modal.dart';
 
-enum ownerType { Owner, Tenant } //radio buttons
+//enum ownerType { Owner, Tenant } //radio buttons
 
 class ResidentInfo extends StatefulWidget {
   final Resident? resident;
@@ -21,19 +22,19 @@ class ResidentInfo extends StatefulWidget {
 class _ResidentInfoState extends State<ResidentInfo> {
   var logger = Logger();
 
-  ownerType? _PrivateOwnerType;
+  //ownerType? _PrivateOwnerType;
 
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController contactController = TextEditingController();
-  final TextEditingController whatsappcontactController =
+  late TextEditingController firstNameController = TextEditingController();
+  late TextEditingController lastNameController = TextEditingController();
+  late TextEditingController emailController = TextEditingController();
+  late TextEditingController contactController = TextEditingController();
+  late TextEditingController whatsappcontactController =
       TextEditingController();
-  final TextEditingController homeController = TextEditingController();
-  final TextEditingController adhaarController = TextEditingController();
-  final TextEditingController floorController = TextEditingController();
-  final TextEditingController flatNumberController = TextEditingController();
-  final TextEditingController numofpeopleController = TextEditingController();
+  late TextEditingController homeController = TextEditingController();
+  late TextEditingController adhaarController = TextEditingController();
+  late TextEditingController floorController = TextEditingController();
+  late TextEditingController flatNumberController = TextEditingController();
+  late TextEditingController numofpeopleController = TextEditingController();
   //final TextEditingController radioController = TextEditingController();
   //final TextEditingController leaseController = TextEditingController();
   // final TextEditingController moveinController = TextEditingController();
@@ -41,6 +42,46 @@ class _ResidentInfoState extends State<ResidentInfo> {
   final RegExp nameRegExp = RegExp(r'^[a-zA-Z]+$');
 
   final _formkey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super
+        .initState(); //checking here if data received or not . if not null we will set to our field
+    firstNameController =
+        TextEditingController(text: widget.resident?.fname ?? '');
+
+    lastNameController =
+        TextEditingController(text: widget.resident?.lname ?? '');
+
+    emailController = TextEditingController(text: widget.resident?.email ?? '');
+
+    contactController = TextEditingController(
+        text: widget.resident?.contact != null
+            ? widget.resident!.contact.toString()
+            : '');
+
+    whatsappcontactController = TextEditingController(
+        text: widget.resident?.wcontact != null
+            ? widget.resident!.wcontact.toString()
+            : '');
+
+    homeController = TextEditingController(text: widget.resident?.home ?? '');
+
+    adhaarController = TextEditingController(
+        text: widget.resident?.adhaar != null
+            ? widget.resident!.adhaar.toString()
+            : '');
+
+    floorController = TextEditingController(text: widget.resident?.floor ?? '');
+
+    flatNumberController =
+        TextEditingController(text: widget.resident?.flat ?? '');
+
+    numofpeopleController = TextEditingController(
+        text: widget.resident?.no_people != null
+            ? widget.resident!.no_people.toString()
+            : '');
+  }
 
   @override
   void dispose() {
@@ -396,22 +437,38 @@ class _ResidentInfoState extends State<ResidentInfo> {
                         height: 10,
                       ),
                       ElevatedButton(
-                        onPressed: 
-                          // if (_formkey.currentState!.validate()) {
+                        onPressed:
+                            // if (_formkey.currentState!.validate()) {
                             _handleSubmit,
 
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) {
-                            //     return DetailsScreen(
-                            //         ownerName: firstNameController.text,
-                            //         lastName: lastNameController.text,
-                            //         contact: contactController.text);
-                            //   }),
-                            // );
-                          // }
-                      
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) {
+                        //     return DetailsScreen(
+                        //         ownerName: firstNameController.text,
+                        //         lastName: lastNameController.text,
+                        //         contact: contactController.text);
+                        //   }),
+                        // );
+                        // }
+
                         child: Text("Submit Form"),
+                        style: OutlinedButton.styleFrom(
+                            minimumSize: Size(200, 50)),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResidentDisplaypage()),
+                          );
+                        },
+                        child: Text('see data inserted'),
                         style: OutlinedButton.styleFrom(
                             minimumSize: Size(200, 50)),
                       ),

@@ -54,6 +54,60 @@ class DatabaseHelper {
             sql.ConflictAlgorithm.replace); // add conflictAlgorithm
   }
 
+  static Future<List<Resident>> getResident() async {
+    //fetching data to display details.....
+    final dbClient = await db();
+    final List<Map<String, dynamic>> maps = await dbClient.query('residents');
+
+    return List.generate(maps.length, (i) {
+      return Resident(
+        id: maps[i]['id'],
+        fname: maps[i]['fname'],
+        lname: maps[i]['lname'],
+        email: maps[i]['email'],
+        contact: maps[i]['contact'],
+        wcontact: maps[i]['wcontact'],
+        home: maps[i]['home'],
+        adhaar: maps[i]['adhaar'],
+        floor: maps[i]['floor'],
+        flat: maps[i]['flat'],
+        no_people: maps[i]['no_people'],
+      );
+    });
+  }
+
+  static Future<Resident> getUser(int id) async {
+    //fetching data through id of table user
+    final dbClient = await db();
+    final maps =
+        await dbClient.query('residents', where: 'id = ?', whereArgs: [id]);
+    return Resident.fromMap(maps.first);
+  }
+
+
+
+
+  static Future<int> updateResident(int id, Resident resident) async {
+  final dbClient = await db();
+  return dbClient.update(
+    'residents',
+    resident.toMap(),
+    where: 'id = ?',
+    whereArgs: [id],
+  );
+}
+
+
+
+static Future<int> deleteResident(int id) async {
+  final dbClient = await db();
+  return await dbClient.delete(
+    'residents',
+    where: 'id = ?',
+    whereArgs: [id],
+  );
+}
+
 
 
 
