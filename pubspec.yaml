@@ -39,6 +39,7 @@ dependencies:
   pinput: ^2.2.31
   flutter_svg: ^2.0.2
   sqflite: ^2.2.5
+  logger: ^1.3.0
   #path_provider: ^2.0.13
   #path: ^1.8.3
   
