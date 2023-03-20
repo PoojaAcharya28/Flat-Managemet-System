@@ -103,7 +103,8 @@ class _ResidentInfoState extends State<ResidentInfo> {
 
   void _handleSubmit() async {
     final resident = Resident(
-      id: widget.resident?.id,
+      id: widget
+          .resident?.id, // use the id of the user being edited, if provided
       fname: firstNameController.text,
       lname: lastNameController.text,
       email: emailController.text,
@@ -114,42 +115,158 @@ class _ResidentInfoState extends State<ResidentInfo> {
       floor: floorController.text,
       flat: flatNumberController.text,
       no_people: int.tryParse(numofpeopleController.text) ?? 0,
-      // radio:   _PrivateOwnerType.toString(),
     );
 
-    int result;
-    // if(widget.resident == null){
-    result = await DatabaseHelper.addResident(resident);
+    // Show confirmation dialog
+    bool shouldProceed = await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text(widget.resident == null
+                  ? 'Add Resident'
+                  : 'Update Resident ${widget.resident!.fname}?'),
+              content: Text(widget.resident == null
+                  ? 'Are you sure you want to add this Resident?'
+                  : 'Are you sure you want to update ${widget.resident!.fname}?'),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                    child: Text('No')),
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Text('Yes')),
+              ],
+            ));
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('User added successfully!'),
-        duration: Duration(seconds: 2),
-      ),
-    );
-
-    // if (result != null && result > 0) {
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       SnackBar(
-    //         content: Text('User added successfully!'),
-    //         duration: Duration(seconds: 2),
-    //       ),
-    //     );
-    //     // Clear the form fields after adding/updating the user
-    //     // firstNameController.clear();
-    //     // ageController.clear();
-    //     // emailController.clear();
-    //   } else {
-    //     ScaffoldMessenger.of(context).showSnackBar(
-    //       SnackBar(
-    //         content: Text('Failed to add user.'),
-    //         duration: Duration(seconds: 2),
-    //       ),
-    //     );
-    //   }
-
-    // }
+    if (shouldProceed) {
+      int result;
+      if (widget.resident == null) {
+        result = await DatabaseHelper.addResident(resident);
+        if (result != null && result > 0) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Resident added successfully!'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+          // Clear the form fields after adding/updating the user
+          firstNameController.clear();
+          lastNameController.clear();
+          emailController.clear();
+          contactController.clear();
+          whatsappcontactController.clear();
+          homeController.clear();
+          adhaarController.clear();
+          floorController.clear();
+          flatNumberController.clear();
+          numofpeopleController.clear();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Failed to add Resident.'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      } else {
+        result = await DatabaseHelper.updateResident(resident.id!, resident);
+        if (result != null && result > 0) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Resident updated successfully!'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+          // Clear the form fields after adding/updating the user
+          firstNameController.clear();
+          lastNameController.clear();
+          emailController.clear();
+          contactController.clear();
+          whatsappcontactController.clear();
+          homeController.clear();
+          adhaarController.clear();
+          floorController.clear();
+          flatNumberController.clear();
+          numofpeopleController.clear();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Failed to update Resident.'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      }
+    }
   }
+
+  // final resident = Resident(
+  //     id: widget.resident?.id,
+  //     fname: firstNameController.text,
+  //     lname: lastNameController.text,
+  //     email: emailController.text,
+  //     contact: int.tryParse(contactController.text) ?? 0,
+  //     wcontact: int.tryParse(whatsappcontactController.text) ?? 0,
+  //     home: homeController.text,
+  //     adhaar: int.tryParse(adhaarController.text) ?? 0,
+  //     floor: floorController.text,
+  //     flat: flatNumberController.text,
+  //     no_people: int.tryParse(numofpeopleController.text) ?? 0,
+  //     // radio:   _PrivateOwnerType.toString(),
+  //   );
+
+  // void _handleSubmit() async {
+  //   final resident = Resident(
+  //     id: widget.resident?.id,
+  //     fname: firstNameController.text,
+  //     lname: lastNameController.text,
+  //     email: emailController.text,
+  //     contact: int.tryParse(contactController.text) ?? 0,
+  //     wcontact: int.tryParse(whatsappcontactController.text) ?? 0,
+  //     home: homeController.text,
+  //     adhaar: int.tryParse(adhaarController.text) ?? 0,
+  //     floor: floorController.text,
+  //     flat: flatNumberController.text,
+  //     no_people: int.tryParse(numofpeopleController.text) ?? 0,
+  //     // radio:   _PrivateOwnerType.toString(),
+  //   );
+
+  //   int result;
+  //   // if(widget.resident == null){
+  //   result = await DatabaseHelper.addResident(resident);
+
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text('User added successfully!'),
+  //       duration: Duration(seconds: 2),
+  //     ),
+  //   );
+
+  //   // if (result != null && result > 0) {
+  //   //     ScaffoldMessenger.of(context).showSnackBar(
+  //   //       SnackBar(
+  //   //         content: Text('User added successfully!'),
+  //   //         duration: Duration(seconds: 2),
+  //   //       ),
+  //   //     );
+  //   //     // Clear the form fields after adding/updating the user
+  //   //     // firstNameController.clear();
+  //   //     // ageController.clear();
+  //   //     // emailController.clear();
+  //   //   } else {
+  //   //     ScaffoldMessenger.of(context).showSnackBar(
+  //   //       SnackBar(
+  //   //         content: Text('Failed to add user.'),
+  //   //         duration: Duration(seconds: 2),
+  //   //       ),
+  //   //     );
+  //   //   }
+
+  //   // }
+  // }
 
   // @override
   // void initState() {

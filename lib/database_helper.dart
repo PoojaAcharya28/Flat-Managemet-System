@@ -54,7 +54,7 @@ class DatabaseHelper {
             sql.ConflictAlgorithm.replace); // add conflictAlgorithm
   }
 
-  static Future<List<Resident>> getResident() async {
+  static Future<List<Resident>> getResidents() async {
     //fetching data to display details.....
     final dbClient = await db();
     final List<Map<String, dynamic>> maps = await dbClient.query('residents');
@@ -76,7 +76,7 @@ class DatabaseHelper {
     });
   }
 
-  static Future<Resident> getUser(int id) async {
+  static Future<Resident> getResident(int id) async {
     //fetching data through id of table user
     final dbClient = await db();
     final maps =

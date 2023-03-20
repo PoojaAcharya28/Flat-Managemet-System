@@ -21,7 +21,7 @@ class _ResidentDisplaypageState extends State<ResidentDisplaypage> {
   }
 
   Future<void> _fetchUsers() async {
-    final residents = await DatabaseHelper.getResident();
+    final residents = await DatabaseHelper.getResidents();
     setState(() {
       _resident = residents;
     });
@@ -31,15 +31,19 @@ class _ResidentDisplaypageState extends State<ResidentDisplaypage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flat Records'),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(156, 44, 85, 95),
+        title: Text('Flat Records',
+        style: TextStyle(color: Colors.white),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigator.pushReplacement(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) => MyForm(),
-          //     ));
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ResidentInfo(),
+              ));
           // Do something when the button is pressed
         },
         child: Icon(Icons.add),
@@ -87,10 +91,10 @@ class _ResidentDisplaypageState extends State<ResidentDisplaypage> {
                         ),
                       );
                       if (result != null) {
-                        // final updatedUser = result['resident'] as resident;
-                        // final userId = result['id'] as int;
-                        // await DatabaseHelper.updateResident(residentId, updateResident);
-                        // await _fetchUsers();   //come back later okay after editing form
+                        final updatedResident = result['resident'] as Resident;
+                        final residentId = result['id'] as int;
+                        await DatabaseHelper.updateResident(residentId, updatedResident);
+                        await _fetchUsers();   //come back later okay after editing form
                       }
                     },
                     title: Padding(
