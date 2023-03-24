@@ -108,6 +108,18 @@ static Future<int> deleteResident(int id) async {
   );
 }
 
+static Future<List<Map<String, dynamic>>> rawQuery(String query, List<String> list) async {
+  final dbClient = await db();
+  return dbClient.rawQuery(query);
+}
+
+// static Future<List<Map<String, dynamic>>> rawQuery(String query, [List<dynamic> args = const []]) async {
+//     final dbClient = await db();
+//     return db.rawQuery(query);
+//   }
+
+
+
 
 
 

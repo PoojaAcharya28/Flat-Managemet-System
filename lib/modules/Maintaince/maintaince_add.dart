@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../database_helper.dart';
 import '../../login.dart';
 import 'calculation.dart';
 import 'electrical.dart';
@@ -18,7 +19,9 @@ class _MaintenanceState extends State<Maintenance> {
   final _formkey = GlobalKey<FormState>();
   final RegExp nameRegExp = RegExp(r'^[a-zA-Z]+$');
 
-  //final TextEditingController ownerNameController = TextEditingController();
+  final TextEditingController floController = TextEditingController();
+  final TextEditingController flaController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,36 +36,35 @@ class _MaintenanceState extends State<Maintenance> {
         body: Container(
           padding: EdgeInsets.all(25.0),
           child: ListView(
-           
             children: [
               Form(
                   child: Column(
                 children: [
-                  TextFormField(
-                      //controller: ownerNameController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your name';
-                        } else if (!nameRegExp.hasMatch(value)) {
-                          return 'Please enter a valid name';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.person),
-                        hintText: "Enter Owner Name",
-                        border: OutlineInputBorder(),
-                      )),
-                  SizedBox(
-                    height: 10,
-                  ),
                   Row(
                     children: [
                       Expanded(
                         child: TextFormField(
+                          controller: floController,
+                          onChanged: (value) async {
+                            // Get the name from the database using the floor and flat number
+                            final query =
+                                'SELECT fname FROM residents WHERE floor = ? AND flat = ?';
+                            final result = await DatabaseHelper.rawQuery(query,
+                                [floController.text, flaController.text]);
+                            // Update the name field if a result was found
+                            if (result.isNotEmpty) {
+                              setState(() {
+                                nameController.text = result.first['fname'];
+                              });
+                            } else {
+                              setState(() {
+                                nameController.text = '';
+                              });
+                            }
+                          },
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.other_houses),
-                            hintText: "Apt Number",
+                            hintText: "Floor Number",
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 10.0),
@@ -80,6 +82,24 @@ class _MaintenanceState extends State<Maintenance> {
                       ),
                       Expanded(
                         child: TextFormField(
+                          controller: flaController,
+                          onChanged: (value) async {
+                            // Get the name from the database using the floor and flat number
+                            final query =
+                                'SELECT fname FROM residents WHERE floor = ? AND flat = ?';
+                            final result = await DatabaseHelper.rawQuery(query,
+                                [floController.text, flaController.text]);
+                            // Update the name field if a result was found
+                            if (result.isNotEmpty) {
+                              setState(() {
+                                nameController.text = result.first['fname'];
+                              });
+                            } else {
+                              setState(() {
+                                nameController.text = '';
+                              });
+                            }
+                          },
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.other_houses),
                             hintText: "Flat Number",
@@ -97,6 +117,39 @@ class _MaintenanceState extends State<Maintenance> {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState){
+                      return TextFormField(
+                      enabled: false,
+                        //readOnly: true,
+                        
+                        //controller: nameController,
+                        onChanged: (value) {
+                          print(
+                              value); // prints the value of nameController to console
+                        },
+                        initialValue: nameController.text,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your name';
+                          } else if (!nameRegExp.hasMatch(value)) {
+                            return 'Please enter a valid name';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.person),
+                          hintText: "Enter Owner Name",
+                          border: OutlineInputBorder(),
+                        ));
+                    },
+                    
+                  ),
+                  Text("${nameController.text}"),
+
                   SizedBox(
                     height: 10,
                   ),
@@ -120,39 +173,162 @@ class _MaintenanceState extends State<Maintenance> {
 
                   // ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                          child: TextFormField(
-                        readOnly: true,
-                        enabled: false,
-                        decoration: InputDecoration(
-                          hintText: "cleaning",
-                          hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                        textAlign: TextAlign.center,
-                      )),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          child: TextFormField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: "0.00",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                      )),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     Expanded(
+                  //         child: TextFormField(
+                  //       readOnly: true,
+                  //       enabled: false,
+                  //       decoration: InputDecoration(
+                  //         hintText: "cleaning",
+                  //         hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                  //         border: OutlineInputBorder(),
+                  //         contentPadding: EdgeInsets.symmetric(
+                  //             vertical: 10.0, horizontal: 10.0),
+                  //       ),
+                  //       textAlign: TextAlign.center,
+                  //     )),
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ),
+                  //     Expanded(
+                  //         child: TextFormField(
+                  //       textAlign: TextAlign.center,
+                  //       decoration: InputDecoration(
+                  //         hintText: "0.00",
+                  //         border: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(30.0),
+                  //         ),
+                  //         contentPadding: EdgeInsets.symmetric(
+                  //             vertical: 10.0, horizontal: 10.0),
+                  //       ),
+                  //     )),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     Expanded(
+                  //         child: TextFormField(
+                  //       readOnly: true,
+                  //       enabled: false,
+                  //       decoration: InputDecoration(
+                  //         //labelText: "Landscaping",
+                  //         hintText: "Landscaping",
+                  //         hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                  //         border: OutlineInputBorder(
+                  //             //borderSide: BorderSide(color: Color.fromARGB(255, 177, 58, 58)),
+
+                  //             ),
+                  //         contentPadding: EdgeInsets.symmetric(
+                  //             vertical: 10.0, horizontal: 10.0),
+                  //       ),
+                  //       textAlign: TextAlign.center,
+                  //     )),
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ),
+                  //     Expanded(
+                  //         child: TextFormField(
+                  //       textAlign: TextAlign.center,
+                  //       decoration: InputDecoration(
+                  //         hintText: "0.00",
+                  //         border: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(30.0),
+                  //         ),
+                  //         contentPadding: EdgeInsets.symmetric(
+                  //             vertical: 10.0, horizontal: 10.0),
+                  //       ),
+                  //     )),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     Expanded(
+                  //         child: TextFormField(
+                  //       readOnly: true,
+                  //       enabled: false,
+                  //       decoration: InputDecoration(
+                  //         //labelText: "Landscaping",
+                  //         hintText: "Pest Control",
+                  //         hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                  //         border: OutlineInputBorder(
+                  //             //borderSide: BorderSide(color: Color.fromARGB(255, 177, 58, 58)),
+
+                  //             ),
+                  //         contentPadding: EdgeInsets.symmetric(
+                  //             vertical: 10.0, horizontal: 10.0),
+                  //       ),
+                  //       textAlign: TextAlign.center,
+                  //     )),
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ),
+                  //     Expanded(
+                  //         child: TextFormField(
+                  //       textAlign: TextAlign.center,
+                  //       decoration: InputDecoration(
+                  //         hintText: "0.00",
+                  //         border: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(30.0),
+                  //         ),
+                  //         contentPadding: EdgeInsets.symmetric(
+                  //             vertical: 10.0, horizontal: 10.0),
+                  //       ),
+                  //     )),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     Expanded(
+                  //         child: TextFormField(
+                  //       readOnly: true,
+                  //       enabled: false,
+                  //       decoration: InputDecoration(
+                  //         //labelText: "Landscaping",
+                  //         hintText: "Flooring",
+                  //         hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                  //         border: OutlineInputBorder(
+                  //             //borderSide: BorderSide(color: Color.fromARGB(255, 177, 58, 58)),
+
+                  //             ),
+                  //         contentPadding: EdgeInsets.symmetric(
+                  //             vertical: 10.0, horizontal: 10.0),
+                  //       ),
+                  //       textAlign: TextAlign.center,
+                  //     )),
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ),
+                  //     Expanded(
+                  //         child: TextFormField(
+                  //       textAlign: TextAlign.center,
+                  //       decoration: InputDecoration(
+                  //         hintText: "0.00",
+                  //         border: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(30.0),
+                  //         ),
+                  //         contentPadding: EdgeInsets.symmetric(
+                  //             vertical: 10.0, horizontal: 10.0),
+                  //       ),
+                  //     )),
+                  //   ],
+                  // ),
                   SizedBox(
                     height: 10,
                   ),
@@ -166,130 +342,7 @@ class _MaintenanceState extends State<Maintenance> {
                         enabled: false,
                         decoration: InputDecoration(
                           //labelText: "Landscaping",
-                          hintText: "Landscaping",
-                          hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                          border: OutlineInputBorder(
-                              //borderSide: BorderSide(color: Color.fromARGB(255, 177, 58, 58)),
-
-                              ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                        textAlign: TextAlign.center,
-                      )),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          child: TextFormField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: "0.00",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                      )),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                          child: TextFormField(
-                        readOnly: true,
-                        enabled: false,
-                        decoration: InputDecoration(
-                          //labelText: "Landscaping",
-                          hintText: "Pest Control",
-                          hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                          border: OutlineInputBorder(
-                              //borderSide: BorderSide(color: Color.fromARGB(255, 177, 58, 58)),
-
-                              ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                        textAlign: TextAlign.center,
-                      )),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          child: TextFormField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: "0.00",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                      )),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                          child: TextFormField(
-                        readOnly: true,
-                        enabled: false,
-                        decoration: InputDecoration(
-                          //labelText: "Landscaping",
-                          hintText: "Flooring",
-                          hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                          border: OutlineInputBorder(
-                              //borderSide: BorderSide(color: Color.fromARGB(255, 177, 58, 58)),
-
-                              ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                        textAlign: TextAlign.center,
-                      )),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          child: TextFormField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: "0.00",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                      )),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                          child: TextFormField(
-                        readOnly: true,
-                        enabled: false,
-                        decoration: InputDecoration(
-                          //labelText: "Landscaping",
-                          hintText: "Parking",
+                          hintText: "Common unit area",
                           hintStyle: TextStyle(fontWeight: FontWeight.bold),
                           border: OutlineInputBorder(
                               //borderSide: BorderSide(color: Color.fromARGB(255, 177, 58, 58)),
@@ -498,14 +551,16 @@ class _MaintenanceState extends State<Maintenance> {
                                 fontSize: 15.0, fontWeight: FontWeight.bold),
                           )),
                       TextButton(onPressed: () {}, child: Text("No")),
-                      TextButton(onPressed: () {
-                        Navigator.push(
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
                                 return ElectricInfo();
                               }),
                             );
-                      }, child: Text("Yes")),
+                          },
+                          child: Text("Yes")),
                       Expanded(
                           child: TextFormField(
                         textAlign: TextAlign.center,
@@ -538,14 +593,16 @@ class _MaintenanceState extends State<Maintenance> {
                                 fontSize: 15.0, fontWeight: FontWeight.bold),
                           )),
                       TextButton(onPressed: () {}, child: Text("No")),
-                      TextButton(onPressed: () {
-                        Navigator.push(
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
                                 return PlumbingInfo();
                               }),
                             );
-                      }, child: Text("Yes")),
+                          },
+                          child: Text("Yes")),
                       Expanded(
                           child: TextFormField(
                         textAlign: TextAlign.center,
@@ -578,14 +635,16 @@ class _MaintenanceState extends State<Maintenance> {
                                 fontSize: 15.0, fontWeight: FontWeight.bold),
                           )),
                       TextButton(onPressed: () {}, child: Text("No")),
-                      TextButton(onPressed: () {
-                        Navigator.push(
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
                                 return HvacInfo();
                               }),
                             );
-                      }, child: Text("Yes")),
+                          },
+                          child: Text("Yes")),
                       Expanded(
                           child: TextFormField(
                         textAlign: TextAlign.center,
@@ -618,14 +677,16 @@ class _MaintenanceState extends State<Maintenance> {
                                 fontSize: 15.0, fontWeight: FontWeight.bold),
                           )),
                       TextButton(onPressed: () {}, child: Text("No")),
-                      TextButton(onPressed: () {
-                        Navigator.push(
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
                                 return StructureInfo();
                               }),
                             );
-                      }, child: Text("Yes")),
+                          },
+                          child: Text("Yes")),
                       Expanded(
                           child: TextFormField(
                         textAlign: TextAlign.center,
@@ -692,18 +753,17 @@ class _MaintenanceState extends State<Maintenance> {
                         child: ElevatedButton(
                             onPressed: () {
                               Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return Calculation();
-                              }),
-                            );
-
-                            }, child: Text("Calculation")),
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return Calculation();
+                                }),
+                              );
+                            },
+                            child: Text("Calculation")),
                       ),
                       SizedBox(
                         width: 60.0,
                       ),
-
 
                       // Expanded(
                       //     child: TextFormField(

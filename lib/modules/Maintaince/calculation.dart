@@ -105,6 +105,17 @@ class _CalculationState extends State<Calculation> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      
+
+                    ],
+
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
                       Text("      Amount to be paid           "),
                       SizedBox(
                         width: 10,
@@ -130,8 +141,30 @@ class _CalculationState extends State<Calculation> {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                         onPressed: () {
+                          showDialog(context: context, builder: (BuildContext context){
+                            return AlertDialog(
+                              title: Text("Payment?"),
+                              content: Text("Do you want to do the payment now? or later?"),
+                              actions: [
+                                TextButton(onPressed: (){
+
+                                }, child: Text("Yes")),
+
+                                TextButton(onPressed: (){
+
+                                }, child: Text("No")),
+
+                              ],
+                              elevation: 25.0,
+                              shape:RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0)
+                                
                           
-                        }, child: Text("Paid")),
+                              )
+
+                            );
+                          });
+                        }, child: Text("Payment")),
                   ),
                 ],
               ),

@@ -8,6 +8,7 @@ import 'login.dart';
 import 'modules/Maintaince/maintaince_add.dart';
 import 'modules/Resident/resident_add.dart';
 import 'modules/Resident/resident_detail_screen.dart';
+import 'modules/Resident/resident_display.dart';
 import 'modules/payment/payment.dart';
 
 class DashBoard extends StatefulWidget {
@@ -172,7 +173,15 @@ class _DashBoardState extends State<DashBoard> {
                       CategoryCard(
                         title: "Flat Records",
                         svgSrc: "assets/icons/flat.svg",
-                        press: (){},
+                        press: (){
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ResidentDisplaypage(),
+                              ),
+                            );
+                        },
                       ),
 
                       // CategoryCard(
