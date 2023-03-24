@@ -45,10 +45,11 @@ class _MaintenanceState extends State<Maintenance> {
                       Expanded(
                         child: TextFormField(
                           controller: floController,
-                          onChanged: (value) async {
+                          onTap: () async {
+                            print('Tapped');
                             // Get the name from the database using the floor and flat number
                             final query =
-                                'SELECT fname FROM residents WHERE floor = ? AND flat = ?';
+                                'SELECT fname FROM residents WHERE floor = ? OR flat = ?';
                             final result = await DatabaseHelper.rawQuery(query,
                                 [floController.text, flaController.text]);
                             // Update the name field if a result was found
@@ -62,6 +63,24 @@ class _MaintenanceState extends State<Maintenance> {
                               });
                             }
                           },
+                          // onChanged: (value) async {
+                          //   // Get the name from the database using the floor and flat number
+                          //   final query =
+                          //       'SELECT fname FROM residents WHERE floor = ? AND flat = ?';
+                          //   final result = await DatabaseHelper.rawQuery(query,
+                          //       [floController.text, flaController.text]);
+                          //   // Update the name field if a result was found
+                          //   if (result.isNotEmpty) {
+                          //     setState(() {
+                          //       nameController.text = result.first['fname'];
+                          //     });
+                          //   } else {
+                          //     setState(() {
+                          //       nameController.text = '';
+                          //     });
+                          //   }
+                          // },
+
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.other_houses),
                             hintText: "Floor Number",
@@ -83,12 +102,20 @@ class _MaintenanceState extends State<Maintenance> {
                       Expanded(
                         child: TextFormField(
                           controller: flaController,
-                          onChanged: (value) async {
+                          onTap: () async {
+                            print('Tapped');
+                            print('Floor: ${floController.text}');
+                            print('Flat: ${flaController.text}');
                             // Get the name from the database using the floor and flat number
                             final query =
-                                'SELECT fname FROM residents WHERE floor = ? AND flat = ?';
+                                'SELECT fname FROM residents WHERE floor = ? OR flat = ?';
+                                print('Before query');
                             final result = await DatabaseHelper.rawQuery(query,
                                 [floController.text, flaController.text]);
+                                print('After query');
+                                print(result);
+
+                            print("hi");
                             // Update the name field if a result was found
                             if (result.isNotEmpty) {
                               setState(() {
@@ -100,6 +127,23 @@ class _MaintenanceState extends State<Maintenance> {
                               });
                             }
                           },
+                          // onChanged: (value) async {
+                          //   // Get the name from the database using the floor and flat number
+                          //   final query =
+                          //       'SELECT fname FROM residents WHERE floor = ? AND flat = ?';
+                          //   final result = await DatabaseHelper.rawQuery(query,
+                          //       [floController.text, flaController.text]);
+                          //   // Update the name field if a result was found
+                          //   if (result.isNotEmpty) {
+                          //     setState(() {
+                          //       nameController.text = result.first['fname'];
+                          //     });
+                          //   } else {
+                          //     setState(() {
+                          //       nameController.text = '';
+                          //     });
+                          //   }
+                          // },
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.other_houses),
                             hintText: "Flat Number",
@@ -121,32 +165,31 @@ class _MaintenanceState extends State<Maintenance> {
                     height: 10,
                   ),
                   StatefulBuilder(
-                    builder: (BuildContext context, StateSetter setState){
+                    builder: (BuildContext context, StateSetter setState) {
                       return TextFormField(
-                      enabled: false,
-                        //readOnly: true,
-                        
-                        //controller: nameController,
-                        onChanged: (value) {
-                          print(
-                              value); // prints the value of nameController to console
-                        },
-                        initialValue: nameController.text,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your name';
-                          } else if (!nameRegExp.hasMatch(value)) {
-                            return 'Please enter a valid name';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.person),
-                          hintText: "Enter Owner Name",
-                          border: OutlineInputBorder(),
-                        ));
+                          enabled: false,
+                          //readOnly: true,
+
+                          //controller: nameController,
+                          onChanged: (value) {
+                            print(
+                                value); // prints the value of nameController to console
+                          },
+                          initialValue: nameController.text,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your name';
+                            } else if (!nameRegExp.hasMatch(value)) {
+                              return 'Please enter a valid name';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.person),
+                            hintText: "Enter Owner Name",
+                            border: OutlineInputBorder(),
+                          ));
                     },
-                    
                   ),
                   Text("${nameController.text}"),
 
