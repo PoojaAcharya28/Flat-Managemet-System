@@ -52,6 +52,7 @@ class _MaintenanceState extends State<Maintenance> {
                                 'SELECT fname FROM residents WHERE floor = ? OR flat = ?';
                             final result = await DatabaseHelper.rawQuery(query,
                                 [floController.text, flaController.text]);
+                            print(result);
                             // Update the name field if a result was found
                             if (result.isNotEmpty) {
                               setState(() {
@@ -124,6 +125,7 @@ class _MaintenanceState extends State<Maintenance> {
                             } else {
                               setState(() {
                                 nameController.text = '';
+                                print(nameController.text);
                               });
                             }
                           },
@@ -170,12 +172,12 @@ class _MaintenanceState extends State<Maintenance> {
                           enabled: false,
                           //readOnly: true,
 
-                          //controller: nameController,
+                          controller: nameController,
                           onChanged: (value) {
                             print(
                                 value); // prints the value of nameController to console
                           },
-                          initialValue: nameController.text,
+                          // initialValue: nameController.text,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your name';
