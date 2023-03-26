@@ -1,13 +1,45 @@
 import 'package:flutter/material.dart';
 
 class StructureInfo extends StatefulWidget {
-  const StructureInfo({super.key});
+  const StructureInfo({super.key, required this.floornum, required this.flatnum, required this.name});
+
+  final String floornum;
+  final String flatnum;
+  final String name;
+
 
   @override
   State<StructureInfo> createState() => _StructureInfoState();
 }
 
 class _StructureInfoState extends State<StructureInfo> {
+
+  final TextEditingController snameController = TextEditingController();
+  final TextEditingController sfloorController = TextEditingController();
+  final TextEditingController sflatController = TextEditingController();
+  final TextEditingController sexpensesController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+   
+
+    snameController.text = widget.name;
+    sfloorController.text = widget.floornum;
+    sflatController.text = widget.flatnum;
+  }
+
+  @override
+  void dispose() {
+    // Dispose the controllers when the widget is disposed
+    snameController.dispose();
+    sfloorController.dispose();
+    sflatController.dispose();
+    sexpensesController.dispose();
+    super.dispose();
+  }
+
+
 
   final _formkey = GlobalKey<FormState>();
   final RegExp nameRegExp = RegExp(r'^[a-zA-Z]+$');
@@ -31,7 +63,7 @@ class _StructureInfoState extends State<StructureInfo> {
                 child: Column(
               children: [
                 TextFormField(
-                    //controller: ownerNameController,
+                    controller: snameController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your name';
@@ -52,16 +84,17 @@ class _StructureInfoState extends State<StructureInfo> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        controller: sfloorController,
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.other_houses),
-                          hintText: "Apt Number",
+                          hintText: "Floor Number",
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 10.0),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your apartment number';
+                            return 'Please enter your floor number';
                           }
                           return null;
                         },
@@ -72,6 +105,7 @@ class _StructureInfoState extends State<StructureInfo> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        controller: sflatController,
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.other_houses),
                           hintText: "Flat Number",
@@ -217,6 +251,7 @@ class _StructureInfoState extends State<StructureInfo> {
                     ),
                     Expanded(
                         child: TextFormField(
+                          controller: sexpensesController,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: "0.00",
@@ -233,7 +268,9 @@ class _StructureInfoState extends State<StructureInfo> {
                   height: 10,
                 ),
 
-                ElevatedButton(onPressed: (){}, child: Text("Submit"))
+                ElevatedButton(onPressed: (){
+                  Navigator.pop(context, sexpensesController.text);
+                }, child: Text("Submit"))
 
                 
               ],

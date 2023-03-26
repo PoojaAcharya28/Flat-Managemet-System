@@ -1,12 +1,42 @@
 import 'package:flutter/material.dart';
 class HvacInfo extends StatefulWidget {
-  const HvacInfo({super.key});
+  const HvacInfo({super.key, required this.floornum, required this.flatnum, required this.name});
+
+  final String floornum;
+  final String flatnum;
+  final String name;
 
   @override
   State<HvacInfo> createState() => _HvacInfoState();
 }
 
 class _HvacInfoState extends State<HvacInfo> {
+
+  final TextEditingController hnameController = TextEditingController();
+  final TextEditingController hfloorController = TextEditingController();
+  final TextEditingController hflatController = TextEditingController();
+  final TextEditingController hexpensesController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    
+
+    hnameController.text = widget.name;
+    hfloorController.text = widget.floornum;
+    hflatController.text = widget.flatnum;
+  }
+
+   @override
+  void dispose() {
+    // Dispose the controllers when the widget is disposed
+    hnameController.dispose();
+    hfloorController.dispose();
+    hflatController.dispose();
+    hexpensesController.dispose();
+    super.dispose();
+  }
+
 
   final _formkey = GlobalKey<FormState>();
   final RegExp nameRegExp = RegExp(r'^[a-zA-Z]+$');
@@ -30,7 +60,7 @@ class _HvacInfoState extends State<HvacInfo> {
                 child: Column(
               children: [
                 TextFormField(
-                    //controller: ownerNameController,
+                    controller: hnameController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your name';
@@ -51,16 +81,17 @@ class _HvacInfoState extends State<HvacInfo> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        controller: hfloorController,
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.other_houses),
-                          hintText: "Apt Number",
+                          hintText: "Floor Number",
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 10.0),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your apartment number';
+                            return 'Please enter your Floor number';
                           }
                           return null;
                         },
@@ -71,6 +102,7 @@ class _HvacInfoState extends State<HvacInfo> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        controller: hflatController,
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.other_houses),
                           hintText: "Flat Number",
@@ -216,6 +248,7 @@ class _HvacInfoState extends State<HvacInfo> {
                     ),
                     Expanded(
                         child: TextFormField(
+                          controller: hexpensesController,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: "0.00",
@@ -232,7 +265,10 @@ class _HvacInfoState extends State<HvacInfo> {
                   height: 10,
                 ),
 
-                ElevatedButton(onPressed: (){}, child: Text("Submit"))
+                ElevatedButton(onPressed: (){
+                  Navigator.pop(context, hexpensesController.text);
+
+                }, child: Text("Submit"))
 
                 
               ],

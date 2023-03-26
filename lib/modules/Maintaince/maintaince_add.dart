@@ -22,6 +22,7 @@ class _MaintenanceState extends State<Maintenance> {
   final TextEditingController floController = TextEditingController();
   final TextEditingController flaController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+
   final TextEditingController commonunitController = TextEditingController();
   final TextEditingController repairController = TextEditingController();
   final TextEditingController expensesController = TextEditingController();
@@ -31,15 +32,11 @@ class _MaintenanceState extends State<Maintenance> {
   final TextEditingController plumbingController = TextEditingController();
   final TextEditingController hvacController = TextEditingController();
   final TextEditingController structuralController = TextEditingController();
+  final TextEditingController unit_area_expensesController = TextEditingController();
+  
+  String _valueFromElectricInfo = "";
 
-  // @override
-  // void initState(){
-  //   super.initState();
-  //   commonunitController.addListener(calculateSum_commonarea);
-  //   repairController.addListener(calculateSum_commonarea);
-
-
-  // }
+  
 
 
 
@@ -48,6 +45,17 @@ class _MaintenanceState extends State<Maintenance> {
     int value2 = int.tryParse(repairController.text) ?? 0;
     int common_area_sum = value1 + value2;
     expensesController.text = common_area_sum.toString();
+
+  }
+
+  void calculateSum_unitarea(){
+    int value3 = int.tryParse(electricalController.text) ?? 0; 
+    int value4 = int.tryParse(plumbingController.text) ?? 0; 
+    int value5 = int.tryParse(hvacController.text) ?? 0; 
+    int value6 = int.tryParse(structuralController.text) ?? 0; 
+    int unit_area_sum = value3 + value4 +value5 + value6;
+    unit_area_expensesController.text = unit_area_sum.toString();
+
 
   }
 
@@ -356,13 +364,24 @@ class _MaintenanceState extends State<Maintenance> {
 
                       }, child: Text("No")),
                       TextButton(
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async{
+                            final result = await Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
-                                return ElectricInfo();
+                                return ElectricInfo(
+                                  floornum : floController.text,
+                                  flatnum : flaController.text,
+                                  name : nameController.text
+                                );
                               }),
                             );
+
+                            setState(() {
+              _valueFromElectricInfo = result;
+              electricalController.text = _valueFromElectricInfo;
+            });
+
+                            
                           },
                           child: Text("Yes")),
                       Expanded(
@@ -401,13 +420,24 @@ class _MaintenanceState extends State<Maintenance> {
                           )),
                       TextButton(onPressed: () {plumbingController.text= '0.0';}, child: Text("No")),
                       TextButton(
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async{
+                            final result = await Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
-                                return PlumbingInfo();
+                                return PlumbingInfo(
+                                  floornum : floController.text,
+                                  flatnum : flaController.text,
+                                  name : nameController.text
+                                );
                               }),
                             );
+
+                            setState(() {
+              _valueFromElectricInfo = result;
+              plumbingController.text = _valueFromElectricInfo;
+            });
+
+                            
                           },
                           child: Text("Yes")),
                       Expanded(
@@ -448,13 +478,24 @@ class _MaintenanceState extends State<Maintenance> {
                         hvacController.text= '0.0';
                       }, child: Text("No")),
                       TextButton(
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async{
+                            final result = await Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
-                                return HvacInfo();
+                                return HvacInfo(
+                                  floornum : floController.text,
+                                  flatnum : flaController.text,
+                                  name : nameController.text
+                                );
                               }),
                             );
+
+                            setState(() {
+              _valueFromElectricInfo = result;
+              hvacController.text = _valueFromElectricInfo;
+            });
+
+                            
                           },
                           child: Text("Yes")),
                       Expanded(
@@ -495,13 +536,24 @@ class _MaintenanceState extends State<Maintenance> {
                         structuralController.text= '0.0';
                       }, child: Text("No")),
                       TextButton(
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async{
+                            final result = await Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
-                                return StructureInfo();
+                                return StructureInfo(
+                                  floornum : floController.text,
+                                  flatnum : flaController.text,
+                                  name : nameController.text
+                                );
                               }),
                             );
+
+                            setState(() {
+              _valueFromElectricInfo = result;
+              structuralController.text = _valueFromElectricInfo;
+            });
+
+                            
                           },
                           child: Text("Yes")),
                       Expanded(
@@ -539,7 +591,7 @@ class _MaintenanceState extends State<Maintenance> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextButton(
-                            onPressed: () {},
+                            onPressed: calculateSum_unitarea,
                             child: Text("Unit area Expenses")),
                       ),
                       SizedBox(
@@ -547,6 +599,8 @@ class _MaintenanceState extends State<Maintenance> {
                       ),
                       Expanded(
                           child: TextFormField(
+                            controller: unit_area_expensesController,
+
                         readOnly: true,
                         enabled: false,
                         textAlign: TextAlign.center,

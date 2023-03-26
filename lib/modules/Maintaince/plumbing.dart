@@ -1,13 +1,44 @@
 import 'package:flutter/material.dart';
 
 class PlumbingInfo extends StatefulWidget {
-  const PlumbingInfo({super.key});
+  const PlumbingInfo({super.key, required this.floornum, required this.flatnum, required this.name});
+
+  final String floornum;
+  final String flatnum;
+  final String name;
 
   @override
   State<PlumbingInfo> createState() => _PlumbingInfoState();
 }
 
 class _PlumbingInfoState extends State<PlumbingInfo> {
+
+  final TextEditingController pnameController = TextEditingController();
+  final TextEditingController pfloorController = TextEditingController();
+  final TextEditingController pflatController = TextEditingController();
+  final TextEditingController pexpensesController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // enameController.text = TextEditingController(text: widget.name) as String;
+    // efloorController.text = TextEditingController(text: widget.floornum) as String;
+    // eflatController.text = TextEditingController(text: widget.flatnum) as String;
+
+    pnameController.text = widget.name;
+    pfloorController.text = widget.floornum;
+    pflatController.text = widget.flatnum;
+  }
+
+  @override
+  void dispose() {
+    // Dispose the controllers when the widget is disposed
+    pnameController.dispose();
+    pfloorController.dispose();
+    pflatController.dispose();
+    pexpensesController.dispose();
+    super.dispose();
+  }
 
   final _formkey = GlobalKey<FormState>();
   final RegExp nameRegExp = RegExp(r'^[a-zA-Z]+$');
@@ -31,7 +62,7 @@ class _PlumbingInfoState extends State<PlumbingInfo> {
                 child: Column(
               children: [
                 TextFormField(
-                    //controller: ownerNameController,
+                    controller: pnameController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your name';
@@ -52,16 +83,17 @@ class _PlumbingInfoState extends State<PlumbingInfo> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        controller: pfloorController,
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.other_houses),
-                          hintText: "Apt Number",
+                          hintText: "Floor Number",
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 10.0),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your apartment number';
+                            return 'Please enter your floor number';
                           }
                           return null;
                         },
@@ -72,6 +104,7 @@ class _PlumbingInfoState extends State<PlumbingInfo> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        controller: pflatController,
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.other_houses),
                           hintText: "Flat Number",
@@ -217,6 +250,7 @@ class _PlumbingInfoState extends State<PlumbingInfo> {
                     ),
                     Expanded(
                         child: TextFormField(
+                          controller: pexpensesController,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: "0.00",
@@ -233,7 +267,9 @@ class _PlumbingInfoState extends State<PlumbingInfo> {
                   height: 10,
                 ),
 
-                ElevatedButton(onPressed: (){}, child: Text("Submit"))
+                ElevatedButton(onPressed: (){
+                  Navigator.pop(context, pexpensesController.text);
+                }, child: Text("Submit"))
 
                 
               ],

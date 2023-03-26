@@ -1,13 +1,48 @@
 import 'package:flutter/material.dart';
 
 class ElectricInfo extends StatefulWidget {
-  const ElectricInfo({super.key});
+  const ElectricInfo(
+      {super.key,
+      required this.floornum,
+      required this.flatnum,
+      required this.name});
+
+  final String floornum;
+  final String flatnum;
+  final String name;
 
   @override
   State<ElectricInfo> createState() => _ElectricInfoState();
 }
 
 class _ElectricInfoState extends State<ElectricInfo> {
+  final TextEditingController enameController = TextEditingController();
+  final TextEditingController efloorController = TextEditingController();
+  final TextEditingController eflatController = TextEditingController();
+  final TextEditingController eexpensesController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // enameController.text = TextEditingController(text: widget.name) as String;
+    // efloorController.text = TextEditingController(text: widget.floornum) as String;
+    // eflatController.text = TextEditingController(text: widget.flatnum) as String;
+
+    enameController.text = widget.name;
+    efloorController.text = widget.floornum;
+    eflatController.text = widget.flatnum;
+  }
+
+  @override
+  void dispose() {
+    // Dispose the controllers when the widget is disposed
+    enameController.dispose();
+    efloorController.dispose();
+    eflatController.dispose();
+    eexpensesController.dispose();
+    super.dispose();
+  }
+
   final _formkey = GlobalKey<FormState>();
   final RegExp nameRegExp = RegExp(r'^[a-zA-Z]+$');
 
@@ -30,7 +65,7 @@ class _ElectricInfoState extends State<ElectricInfo> {
                 child: Column(
               children: [
                 TextFormField(
-                    //controller: ownerNameController,
+                    controller: enameController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your name';
@@ -51,16 +86,17 @@ class _ElectricInfoState extends State<ElectricInfo> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        controller: efloorController,
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.other_houses),
-                          hintText: "Apt Number",
+                          hintText: "Floor Number",
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 10.0),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your apartment number';
+                            return 'Please enter your Floor number';
                           }
                           return null;
                         },
@@ -71,6 +107,7 @@ class _ElectricInfoState extends State<ElectricInfo> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        controller: eflatController,
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.other_houses),
                           hintText: "Flat Number",
@@ -91,8 +128,6 @@ class _ElectricInfoState extends State<ElectricInfo> {
                 SizedBox(
                   height: 15,
                 ),
-
-                
                 Container(
                     padding: EdgeInsets.all(8.0),
                     alignment: Alignment.topLeft,
@@ -105,7 +140,6 @@ class _ElectricInfoState extends State<ElectricInfo> {
                 SizedBox(
                   height: 10,
                 ),
-
                 TextFormField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -113,11 +147,9 @@ class _ElectricInfoState extends State<ElectricInfo> {
                         "eg: malfunctioning switch,power outage, tripped breaker",
                   ),
                 ),
-
                 SizedBox(
                   height: 15,
                 ),
-
                 Container(
                     padding: EdgeInsets.all(8.0),
                     alignment: Alignment.topLeft,
@@ -130,19 +162,15 @@ class _ElectricInfoState extends State<ElectricInfo> {
                 SizedBox(
                   height: 10,
                 ),
-
                 TextFormField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText:
-                        "eg: specfic room or area",
+                    hintText: "eg: specfic room or area",
                   ),
                 ),
-
                 SizedBox(
                   height: 15,
                 ),
-
                 Container(
                     padding: EdgeInsets.all(8.0),
                     alignment: Alignment.topLeft,
@@ -155,7 +183,6 @@ class _ElectricInfoState extends State<ElectricInfo> {
                 SizedBox(
                   height: 10,
                 ),
-
                 TextFormField(
                   minLines: 1,
                   maxLines: 5,
@@ -166,7 +193,6 @@ class _ElectricInfoState extends State<ElectricInfo> {
                         "Description of the Issue eg: sparks, burning smell",
                   ),
                 ),
-
                 SizedBox(
                   height: 15,
                 ),
@@ -182,19 +208,15 @@ class _ElectricInfoState extends State<ElectricInfo> {
                 SizedBox(
                   height: 10,
                 ),
-
                 TextFormField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText:
-                        "eg: lights, outlets, HVAC system ",
+                    hintText: "eg: lights, outlets, HVAC system ",
                   ),
                 ),
-
                 SizedBox(
                   height: 15,
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -216,6 +238,7 @@ class _ElectricInfoState extends State<ElectricInfo> {
                     ),
                     Expanded(
                         child: TextFormField(
+                          controller: eexpensesController,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: "0.00",
@@ -231,10 +254,9 @@ class _ElectricInfoState extends State<ElectricInfo> {
                 SizedBox(
                   height: 10,
                 ),
-
-                ElevatedButton(onPressed: (){}, child: Text("Submit"))
-
-                
+                ElevatedButton(onPressed: () {
+                  Navigator.pop(context, eexpensesController.text);
+                }, child: Text("Submit"))
               ],
             ))
           ],
