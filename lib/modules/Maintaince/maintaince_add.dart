@@ -22,6 +22,35 @@ class _MaintenanceState extends State<Maintenance> {
   final TextEditingController floController = TextEditingController();
   final TextEditingController flaController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController commonunitController = TextEditingController();
+  final TextEditingController repairController = TextEditingController();
+  final TextEditingController expensesController = TextEditingController();
+
+
+  final TextEditingController electricalController = TextEditingController();
+  final TextEditingController plumbingController = TextEditingController();
+  final TextEditingController hvacController = TextEditingController();
+  final TextEditingController structuralController = TextEditingController();
+
+  // @override
+  // void initState(){
+  //   super.initState();
+  //   commonunitController.addListener(calculateSum_commonarea);
+  //   repairController.addListener(calculateSum_commonarea);
+
+
+  // }
+
+
+
+  void calculateSum_commonarea(){
+    int value1 = int.tryParse(commonunitController.text) ?? 0; 
+    int value2 = int.tryParse(repairController.text) ?? 0;
+    int common_area_sum = value1 + value2;
+    expensesController.text = common_area_sum.toString();
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,24 +93,6 @@ class _MaintenanceState extends State<Maintenance> {
                               });
                             }
                           },
-                          // onChanged: (value) async {
-                          //   // Get the name from the database using the floor and flat number
-                          //   final query =
-                          //       'SELECT fname FROM residents WHERE floor = ? AND flat = ?';
-                          //   final result = await DatabaseHelper.rawQuery(query,
-                          //       [floController.text, flaController.text]);
-                          //   // Update the name field if a result was found
-                          //   if (result.isNotEmpty) {
-                          //     setState(() {
-                          //       nameController.text = result.first['fname'];
-                          //     });
-                          //   } else {
-                          //     setState(() {
-                          //       nameController.text = '';
-                          //     });
-                          //   }
-                          // },
-
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.other_houses),
                             hintText: "Floor Number",
@@ -110,11 +121,11 @@ class _MaintenanceState extends State<Maintenance> {
                             // Get the name from the database using the floor and flat number
                             final query =
                                 'SELECT fname FROM residents WHERE floor = ? OR flat = ?';
-                                print('Before query');
+                            print('Before query');
                             final result = await DatabaseHelper.rawQuery(query,
                                 [floController.text, flaController.text]);
-                                print('After query');
-                                print(result);
+                            print('After query');
+                            print(result);
 
                             print("hi");
                             // Update the name field if a result was found
@@ -129,23 +140,6 @@ class _MaintenanceState extends State<Maintenance> {
                               });
                             }
                           },
-                          // onChanged: (value) async {
-                          //   // Get the name from the database using the floor and flat number
-                          //   final query =
-                          //       'SELECT fname FROM residents WHERE floor = ? AND flat = ?';
-                          //   final result = await DatabaseHelper.rawQuery(query,
-                          //       [floController.text, flaController.text]);
-                          //   // Update the name field if a result was found
-                          //   if (result.isNotEmpty) {
-                          //     setState(() {
-                          //       nameController.text = result.first['fname'];
-                          //     });
-                          //   } else {
-                          //     setState(() {
-                          //       nameController.text = '';
-                          //     });
-                          //   }
-                          // },
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.other_houses),
                             hintText: "Flat Number",
@@ -193,7 +187,7 @@ class _MaintenanceState extends State<Maintenance> {
                           ));
                     },
                   ),
-                  Text("${nameController.text}"),
+                  //Text("${nameController.text}"),
 
                   SizedBox(
                     height: 10,
@@ -208,7 +202,455 @@ class _MaintenanceState extends State<Maintenance> {
                             fontSize: 18.0, fontWeight: FontWeight.bold),
                       )),
 
-                  // Container(
+                  SizedBox(
+                    height: 10,
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                          child: TextFormField(
+                        readOnly: true,
+                        enabled: false,
+                        decoration: InputDecoration(
+                          //labelText: "Landscaping",
+                          hintText: "Common unit area",
+                          hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                          border: OutlineInputBorder(
+                              //borderSide: BorderSide(color: Color.fromARGB(255, 177, 58, 58)),
+
+                              ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                        ),
+                        textAlign: TextAlign.center,
+                      )),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                        controller: commonunitController,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: "0.00",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                        ),
+                      )),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                          child: TextFormField(
+                        readOnly: true,
+                        enabled: false,
+                        decoration: InputDecoration(
+                          //labelText: "Landscaping",
+                          hintText: "Other Repairs",
+                          hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                          border: OutlineInputBorder(
+                              //borderSide: BorderSide(color: Color.fromARGB(255, 177, 58, 58)),
+
+                              ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                        ),
+                        textAlign: TextAlign.center,
+                      )),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                        controller: repairController,
+                        
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: "0.00",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                        ),
+                      )),
+                    ],
+                  ),
+                  // Text("data"),
+
+                  // Text("${repairController.text}"),
+
+                  SizedBox(
+                    height: 10,
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: 12.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextButton(
+                            onPressed: calculateSum_commonarea, child: Text("Expenses")),
+                      ),
+                      SizedBox(
+                        width: 60.0,
+                      ),
+                      Expanded(
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            controller: expensesController,
+                        readOnly: true,
+                        enabled: false,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: "0.00",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                        ),
+                      )),
+                    ],
+                  ),
+
+                  Container(
+                      margin: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.all(20.0),
+                      child: Text(
+                        "Unit Area Maintaince",
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      )),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                          //margin: EdgeInsets.all(10.0),
+
+                          padding: EdgeInsets.all(20.0),
+                          child: Text(
+                            "Electrical",
+                            style: TextStyle(
+                                fontSize: 15.0, fontWeight: FontWeight.bold),
+                          )),
+                      TextButton(onPressed: () {
+                        electricalController.text= '0.0';
+
+                      }, child: Text("No")),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return ElectricInfo();
+                              }),
+                            );
+                          },
+                          child: Text("Yes")),
+                      Expanded(
+                          child: TextFormField(
+                            controller: electricalController,
+                            readOnly: true,
+                        enabled: false,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: "0.00",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                        ),
+                      )),
+                    ],
+                  ),
+
+                  SizedBox(
+                    height: 10.0,
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                          //margin: EdgeInsets.all(10.0),
+
+                          padding: EdgeInsets.all(20.0),
+                          child: Text(
+                            "Plumbing ",
+                            style: TextStyle(
+                                fontSize: 15.0, fontWeight: FontWeight.bold),
+                          )),
+                      TextButton(onPressed: () {plumbingController.text= '0.0';}, child: Text("No")),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return PlumbingInfo();
+                              }),
+                            );
+                          },
+                          child: Text("Yes")),
+                      Expanded(
+                          child: TextFormField(
+                            controller: plumbingController,
+                            readOnly: true,
+                        enabled: false,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: "0.00",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                        ),
+                      )),
+                    ],
+                  ),
+
+                  SizedBox(
+                    height: 10.0,
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                          //margin: EdgeInsets.all(10.0),
+
+                          padding: EdgeInsets.all(20.0),
+                          child: Text(
+                            "   HVAC   ",
+                            style: TextStyle(
+                                fontSize: 15.0, fontWeight: FontWeight.bold),
+                          )),
+                      TextButton(onPressed: () {
+                        hvacController.text= '0.0';
+                      }, child: Text("No")),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return HvacInfo();
+                              }),
+                            );
+                          },
+                          child: Text("Yes")),
+                      Expanded(
+                          child: TextFormField(
+                            controller: hvacController,
+                            readOnly: true,
+                        enabled: false,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: "0.00",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                        ),
+                      )),
+                    ],
+                  ),
+
+                  SizedBox(
+                    height: 10.0,
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                          //margin: EdgeInsets.all(10.0),
+
+                          padding: EdgeInsets.all(20.0),
+                          child: Text(
+                            "Structural",
+                            style: TextStyle(
+                                fontSize: 15.0, fontWeight: FontWeight.bold),
+                          )),
+                      TextButton(onPressed: () {
+                        structuralController.text= '0.0';
+                      }, child: Text("No")),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return StructureInfo();
+                              }),
+                            );
+                          },
+                          child: Text("Yes")),
+                      Expanded(
+                          child: TextFormField(
+                            controller: structuralController,
+                            readOnly: true,
+                        enabled: false,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: "0.00",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                        ),
+                      )),
+                    ],
+                  ),
+
+                  SizedBox(
+                    height: 10.0,
+                  ),
+
+                  SizedBox(
+                    height: 10,
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: 12.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextButton(
+                            onPressed: () {},
+                            child: Text("Unit area Expenses")),
+                      ),
+                      SizedBox(
+                        width: 60.0,
+                      ),
+                      Expanded(
+                          child: TextFormField(
+                        readOnly: true,
+                        enabled: false,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: "0.00",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                        ),
+                      )),
+                    ],
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: 12.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return Calculation();
+                                }),
+                              );
+                            },
+                            child: Text("Calculation")),
+                      ),
+                      SizedBox(
+                        width: 60.0,
+                      ),
+
+                      // Expanded(
+                      //     child: TextFormField(
+                      //   readOnly: true,
+                      //   enabled: false,
+                      //   textAlign: TextAlign.center,
+                      //   decoration: InputDecoration(
+                      //     hintText: "0.00",
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(30.0),
+                      //     ),
+                      //     contentPadding: EdgeInsets.symmetric(
+                      //         vertical: 10.0, horizontal: 10.0),
+                      //   ),
+                      // )),
+                    ],
+                  ),
+                ],
+              ))
+            ],
+          ),
+        ));
+  }
+}
+
+
+//.........................................................................................commented section..........................
+// onChanged: (value) async {
+                          //   // Get the name from the database using the floor and flat number
+                          //   final query =
+                          //       'SELECT fname FROM residents WHERE floor = ? AND flat = ?';
+                          //   final result = await DatabaseHelper.rawQuery(query,
+                          //       [floController.text, flaController.text]);
+                          //   // Update the name field if a result was found
+                          //   if (result.isNotEmpty) {
+                          //     setState(() {
+                          //       nameController.text = result.first['fname'];
+                          //     });
+                          //   } else {
+                          //     setState(() {
+                          //       nameController.text = '';
+                          //     });
+                          //   }
+                          // },
+
+
+
+                          // onChanged: (value) async {
+                          //   // Get the name from the database using the floor and flat number
+                          //   final query =
+                          //       'SELECT fname FROM residents WHERE floor = ? AND flat = ?';
+                          //   final result = await DatabaseHelper.rawQuery(query,
+                          //       [floController.text, flaController.text]);
+                          //   // Update the name field if a result was found
+                          //   if (result.isNotEmpty) {
+                          //     setState(() {
+                          //       nameController.text = result.first['fname'];
+                          //     });
+                          //   } else {
+                          //     setState(() {
+                          //       nameController.text = '';
+                          //     });
+                          //   }
+                          // },
+
+
+                          // Container(
                   //   color: Color.fromARGB(255, 255, 248, 222),
                   //   child: Column(
                   //     children: [
@@ -374,50 +816,7 @@ class _MaintenanceState extends State<Maintenance> {
                   //     )),
                   //   ],
                   // ),
-                  SizedBox(
-                    height: 10,
-                  ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                          child: TextFormField(
-                        readOnly: true,
-                        enabled: false,
-                        decoration: InputDecoration(
-                          //labelText: "Landscaping",
-                          hintText: "Common unit area",
-                          hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                          border: OutlineInputBorder(
-                              //borderSide: BorderSide(color: Color.fromARGB(255, 177, 58, 58)),
-
-                              ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                        textAlign: TextAlign.center,
-                      )),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          child: TextFormField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: "0.00",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                      )),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
 
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -501,335 +900,3 @@ class _MaintenanceState extends State<Maintenance> {
                   //   height: 10,
                   // ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                          child: TextFormField(
-                        readOnly: true,
-                        enabled: false,
-                        decoration: InputDecoration(
-                          //labelText: "Landscaping",
-                          hintText: "Other Repairs",
-                          hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                          border: OutlineInputBorder(
-                              //borderSide: BorderSide(color: Color.fromARGB(255, 177, 58, 58)),
-
-                              ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                        textAlign: TextAlign.center,
-                      )),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          child: TextFormField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: "0.00",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                      )),
-                    ],
-                  ),
-
-                  SizedBox(
-                    height: 10,
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SizedBox(
-                        width: 12.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextButton(
-                            onPressed: () {}, child: Text("Expenses")),
-                      ),
-                      SizedBox(
-                        width: 60.0,
-                      ),
-                      Expanded(
-                          child: TextFormField(
-                        readOnly: true,
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: "0.00",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                      )),
-                    ],
-                  ),
-
-                  Container(
-                      margin: EdgeInsets.all(10.0),
-                      padding: EdgeInsets.all(20.0),
-                      child: Text(
-                        "Unit Area Maintaince",
-                        style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.bold),
-                      )),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                          //margin: EdgeInsets.all(10.0),
-
-                          padding: EdgeInsets.all(20.0),
-                          child: Text(
-                            "Electrical",
-                            style: TextStyle(
-                                fontSize: 15.0, fontWeight: FontWeight.bold),
-                          )),
-                      TextButton(onPressed: () {}, child: Text("No")),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return ElectricInfo();
-                              }),
-                            );
-                          },
-                          child: Text("Yes")),
-                      Expanded(
-                          child: TextFormField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: "0.00",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                      )),
-                    ],
-                  ),
-
-                  SizedBox(
-                    height: 10.0,
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                          //margin: EdgeInsets.all(10.0),
-
-                          padding: EdgeInsets.all(20.0),
-                          child: Text(
-                            "Plumbing ",
-                            style: TextStyle(
-                                fontSize: 15.0, fontWeight: FontWeight.bold),
-                          )),
-                      TextButton(onPressed: () {}, child: Text("No")),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return PlumbingInfo();
-                              }),
-                            );
-                          },
-                          child: Text("Yes")),
-                      Expanded(
-                          child: TextFormField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: "0.00",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                      )),
-                    ],
-                  ),
-
-                  SizedBox(
-                    height: 10.0,
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                          //margin: EdgeInsets.all(10.0),
-
-                          padding: EdgeInsets.all(20.0),
-                          child: Text(
-                            "   HVAC   ",
-                            style: TextStyle(
-                                fontSize: 15.0, fontWeight: FontWeight.bold),
-                          )),
-                      TextButton(onPressed: () {}, child: Text("No")),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return HvacInfo();
-                              }),
-                            );
-                          },
-                          child: Text("Yes")),
-                      Expanded(
-                          child: TextFormField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: "0.00",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                      )),
-                    ],
-                  ),
-
-                  SizedBox(
-                    height: 10.0,
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                          //margin: EdgeInsets.all(10.0),
-
-                          padding: EdgeInsets.all(20.0),
-                          child: Text(
-                            "Structural",
-                            style: TextStyle(
-                                fontSize: 15.0, fontWeight: FontWeight.bold),
-                          )),
-                      TextButton(onPressed: () {}, child: Text("No")),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) {
-                                return StructureInfo();
-                              }),
-                            );
-                          },
-                          child: Text("Yes")),
-                      Expanded(
-                          child: TextFormField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: "0.00",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                      )),
-                    ],
-                  ),
-
-                  SizedBox(
-                    height: 10.0,
-                  ),
-
-                  SizedBox(
-                    height: 10,
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SizedBox(
-                        width: 12.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextButton(
-                            onPressed: () {},
-                            child: Text("Unit area Expenses")),
-                      ),
-                      SizedBox(
-                        width: 60.0,
-                      ),
-                      Expanded(
-                          child: TextFormField(
-                        readOnly: true,
-                        enabled: false,
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          hintText: "0.00",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                        ),
-                      )),
-                    ],
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SizedBox(
-                        width: 12.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) {
-                                  return Calculation();
-                                }),
-                              );
-                            },
-                            child: Text("Calculation")),
-                      ),
-                      SizedBox(
-                        width: 60.0,
-                      ),
-
-                      // Expanded(
-                      //     child: TextFormField(
-                      //   readOnly: true,
-                      //   enabled: false,
-                      //   textAlign: TextAlign.center,
-                      //   decoration: InputDecoration(
-                      //     hintText: "0.00",
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(30.0),
-                      //     ),
-                      //     contentPadding: EdgeInsets.symmetric(
-                      //         vertical: 10.0, horizontal: 10.0),
-                      //   ),
-                      // )),
-                    ],
-                  ),
-                ],
-              ))
-            ],
-          ),
-        ));
-  }
-}
