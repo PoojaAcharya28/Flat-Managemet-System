@@ -3,6 +3,7 @@ import 'package:my_app/phone.dart';
 // import 'package:flutter/services.dart';
 // import 'package:flutter/animation.dart';
 import 'modules/Maintaince/calculation.dart';
+import 'modules/Maintaince/calculation_display.dart';
 import 'modules/Maintaince/electrical.dart';
 import 'modules/Maintaince/hvac.dart';
 import 'modules/Maintaince/maintaince_add.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.amber,
       ),
 
-      home:  DashBoard(),
+      home:  CalculationDisplaypage(),
     );
   }
 }
