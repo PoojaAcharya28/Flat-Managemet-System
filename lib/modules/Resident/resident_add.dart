@@ -139,7 +139,8 @@ class _ResidentInfoState extends State<ResidentInfo> {
                     },
                     child: Text('Yes')),
               ],
-            ));
+            )
+            );
 
     if (shouldProceed) {
       int result;

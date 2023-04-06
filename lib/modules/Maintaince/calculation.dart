@@ -1,15 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../dashboard.dart';
 import '../../database_helper.dart';
 import 'calculation_modal.dart';
 
-class Calculation extends StatefulWidget {
+class CalculationInfo extends StatefulWidget {
   final Calculation? calculation;
 
-  const Calculation({super.key, required this.floornum, required this.flatnum, required this.name, required this.common_area_expenses, required this.unit_area_expenses, this.calculation});
+  const CalculationInfo(
+      {super.key,
+      required this.floornum,
+      required this.flatnum,
+      required this.name,
+      required this.common_area_expenses,
+      required this.unit_area_expenses,
+      this.calculation});
+//   const Calculation({
+//   super.key,
+//   this.floornum = '',
+//   this.flatnum = '',
+//   this.name = '',
+//   this.common_area_expenses = '',
+//   this.unit_area_expenses = '',
+//   this.calculation,
+// });
 
   //const Calculation({Key? key, this.calculation}) : super(key: key);
-
 
   final String floornum;
   final String flatnum;
@@ -17,44 +33,36 @@ class Calculation extends StatefulWidget {
   final String common_area_expenses;
   final String unit_area_expenses;
 
-
   @override
-  State<Calculation> createState() => _CalculationState();
+  State<CalculationInfo> createState() => _CalculationInfoState();
 }
 
-class _CalculationState extends State<Calculation> {
-
+class _CalculationInfoState extends State<CalculationInfo> {
   var time = DateTime.now();
   //var payment_time = DateFormat().format(time);
 
   final TextEditingController cnameController = TextEditingController();
   final TextEditingController cfloorController = TextEditingController();
   final TextEditingController cflatController = TextEditingController();
-  final TextEditingController c_common_area_Controller = TextEditingController();
+  final TextEditingController c_common_area_Controller =
+      TextEditingController();
   final TextEditingController c_unit_area_Controller = TextEditingController();
-
 
   final TextEditingController c_amount_paid = TextEditingController();
   final TextEditingController c_pay_status = TextEditingController();
 
   final TextEditingController c_time_controller = TextEditingController();
 
-
-
-
-  void calculateSum_amount_pay(){
-    int value7 = int.tryParse(c_common_area_Controller.text) ?? 0; 
+  void calculateSum_amount_pay() {
+    int value7 = int.tryParse(c_common_area_Controller.text) ?? 0;
     int value8 = int.tryParse(c_unit_area_Controller.text) ?? 0;
     int amt_sum = value7 + value8;
     c_amount_paid.text = amt_sum.toString();
-
   }
-
 
   @override
   void initState() {
     super.initState();
-    
 
     cnameController.text = widget.name;
     cfloorController.text = widget.floornum;
@@ -76,31 +84,115 @@ class _CalculationState extends State<Calculation> {
     super.dispose();
   }
 
-  // void _handleCalculate() async{
-  //   final calculation = Calculation(
-  //     id: widget.calculation?.id,
-  //     cname: cnameController.text,
-  //     cfloor: cfloorController.text,
-  //     cflat: cflatController.text,
+  void _handleCalculate() async {
+    final calculation = Calculation(
+      id: widget.calculation?.id,
+      cname: cnameController.text,
+      cfloor: cfloorController.text,
+      cflat: cflatController.text,
+      c_com_area_unit: int.tryParse(c_common_area_Controller.text) ?? 0,
+      c_unit_area_unit: int.tryParse(c_unit_area_Controller.text) ?? 0,
+      amt_paid: int.tryParse(c_amount_paid.text) ?? 0,
+      status: c_pay_status.text,
+      time: c_time_controller.text,
+    );
 
-  //     c_com_area_unit: int.tryParse(c_common_area_Controller.text) ?? 0,
-  //     c_unit_area_unit: int.tryParse(c_unit_area_Controller.text) ?? 0,
-  //     amt_paid: int.tryParse(c_amount_paid.text) ?? 0,
+    // Show confirmation dialog
+    bool shouldProceed = await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text(widget.calculation == null
+                  ? 'Add payment record'
+                  : 'Update payment record of ${widget.calculation!.cname}?'),
+              content: Text(widget.calculation == null
+                  ? 'Are you sure you want to add this Payment record?'
+                  : 'Are you sure you want to update ${widget.calculation!.cname}?'),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                    child: Text('No')),
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Text('Yes')),
+              ],
+            ));
 
-  //     status: c_pay_status.text,
-  //     time: c_time_controller.text,
+    if (shouldProceed) {
+      int result;
+      if (widget.calculation == null) {
+        result = await DatabaseHelper.addCalculation(calculation);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('inserted successfully!'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+
+        cnameController.clear();
+        cfloorController.clear();
+        cflatController.clear();
+        c_common_area_Controller.clear();
+        c_unit_area_Controller.clear();
+        c_amount_paid.clear();
+        c_time_controller.clear();
+      } else {
+        result = await DatabaseHelper.updateCalculation(
+            calculation.id!, calculation);
+        if (result != null && result > 0) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Payment Record  updated successfully!'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+
+          cnameController.clear();
+          cfloorController.clear();
+          cflatController.clear();
+          c_common_area_Controller.clear();
+          c_unit_area_Controller.clear();
+          c_amount_paid.clear();
+          c_time_controller.clear();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Failed to update Payment Record.'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      }
+      Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (context) => DashBoard()
+      ));
 
 
+    }
+  }
 
+//   void _handleCalculate() async {
+//   final calculation = Calculation(
+//     id: widget.calculation?.id,
+//     name: widget.name,
+//     floornum: widget.floornum,
+//     flatnum: widget.flatnum,
+//     common_area_expenses: widget.common_area_expenses,
+//     unit_area_expenses: widget.unit_area_expenses,
+//     //c_com_area_unit: int.tryParse(c_common_area_Controller.text) ?? 0,
+//     //c_unit_area_unit: int.tryParse(c_unit_area_Controller.text) ?? 0,
+//     amt_paid: int.tryParse(c_amount_paid.text) ?? 0,
+//     status: c_pay_status.text,
+//     time: c_time_controller.text,
+//   );
 
-  //   );
-
-  //   int result;
-  //   result = await DatabaseHelper.addCalculation(calculation);
-
-
-  // }
-
+//   int result = await DatabaseHelper.addCalculation(calculation);
+// }
 
   final RegExp nameRegExp = RegExp(r'^[a-zA-Z]+$');
   @override
@@ -120,76 +212,72 @@ class _CalculationState extends State<Calculation> {
           children: [
             Form(
               child: Column(
-                
-
                 children: [
                   TextFormField(
-                    controller: cnameController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your name';
-                      } else if (!nameRegExp.hasMatch(value)) {
-                        return 'Please enter a valid name';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person),
-                      hintText: "Enter Owner Name",
-                      border: OutlineInputBorder(),
-                    )),
-                SizedBox(
-                  height: 10,
-                ),
+                      controller: cnameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your name';
+                        } else if (!nameRegExp.hasMatch(value)) {
+                          return 'Please enter a valid name';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.person),
+                        hintText: "Enter Owner Name",
+                        border: OutlineInputBorder(),
+                      )),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
-                      child: TextFormField(
-                        controller: cfloorController,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.other_houses),
-                          hintText: "Floor Number",
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
+                        child: TextFormField(
+                          controller: cfloorController,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.other_houses),
+                            hintText: "Floor Number",
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your Floor number';
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your Floor number';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: TextFormField(
-                        controller: cflatController,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.other_houses),
-                          hintText: "Flat Number",
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          controller: cflatController,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.other_houses),
+                            hintText: "Flat Number",
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your flat number';
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your flat number';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                      
-
                     ],
                   ),
                   SizedBox(
-                  height: 20,
-                ),
+                    height: 20,
+                  ),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -212,7 +300,7 @@ class _CalculationState extends State<Calculation> {
                       ),
                       Expanded(
                           child: TextFormField(
-                            controller: c_common_area_Controller,
+                        controller: c_common_area_Controller,
                         readOnly: true,
                         enabled: false,
                         textAlign: TextAlign.center,
@@ -251,7 +339,7 @@ class _CalculationState extends State<Calculation> {
                       ),
                       Expanded(
                           child: TextFormField(
-                            controller:c_unit_area_Controller,
+                        controller: c_unit_area_Controller,
                         readOnly: true,
                         enabled: false,
                         textAlign: TextAlign.center,
@@ -278,16 +366,18 @@ class _CalculationState extends State<Calculation> {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [TextButton(onPressed: calculateSum_amount_pay, child: Text("Amount to be paid")),
-                      
+                    children: [
+                      TextButton(
+                          onPressed: calculateSum_amount_pay,
+                          child: Text("Amount to be paid")),
+
                       //Text("      Amount to be paid           "),
                       SizedBox(
                         width: 10,
                       ),
                       Expanded(
                           child: TextFormField(
-                            controller: c_amount_paid,
-
+                        controller: c_amount_paid,
                         readOnly: true,
                         enabled: false,
                         textAlign: TextAlign.center,
@@ -302,12 +392,11 @@ class _CalculationState extends State<Calculation> {
                       )),
                     ],
                   ),
-                  SizedBox(
-                    height:20.0
-                  ),
+                  SizedBox(height: 20.0),
                   Row(
                     children: [
-                      Expanded(child: TextFormField(
+                      Expanded(
+                          child: TextFormField(
                         readOnly: true,
                         enabled: false,
                         decoration: InputDecoration(
@@ -322,8 +411,9 @@ class _CalculationState extends State<Calculation> {
                       SizedBox(
                         width: 10.0,
                       ),
-                      Expanded(child: TextFormField(
-                        controller:c_pay_status ,
+                      Expanded(
+                          child: TextFormField(
+                        controller: c_pay_status,
                         decoration: InputDecoration(
                           hintText: " yes? or No? ",
                           hintStyle: TextStyle(fontWeight: FontWeight.bold),
@@ -342,15 +432,18 @@ class _CalculationState extends State<Calculation> {
                   ),
                   Row(
                     children: [
-                      TextButton(onPressed: (){
-                        var getTime = DateFormat().format(time);
-                        c_time_controller.text = getTime.toString();
-
-                      }, child: Text("time")),
-                      SizedBox(width: 10.0,),
-                      Expanded(child: TextFormField(
+                      TextButton(
+                          onPressed: () {
+                            var getTime = DateFormat().format(time);
+                            c_time_controller.text = getTime.toString();
+                          },
+                          child: Text("time")),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Expanded(
+                          child: TextFormField(
                         controller: c_time_controller,
-                        
                         readOnly: true,
                         enabled: false,
                         textAlign: TextAlign.center,
@@ -362,9 +455,6 @@ class _CalculationState extends State<Calculation> {
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 10.0),
                         ),
-
-                        
-
                       )),
                     ],
                   ),
@@ -382,11 +472,14 @@ class _CalculationState extends State<Calculation> {
                                         "Do you want to do the payment now? or later?"),
                                     actions: [
                                       TextButton(
-                                        onPressed: (){},
-                                          //onPressed: _handleCalculate,  
+                                          //onPressed: (){},
+                                          onPressed: _handleCalculate,
                                           child: Text("Yes")),
                                       TextButton(
-                                          onPressed: () {}, child: Text("No")),
+                                          onPressed: () {
+                                            Navigator.of(context).pop(false);
+                                          },
+                                          child: Text("No")),
                                     ],
                                     elevation: 25.0,
                                     shape: RoundedRectangleBorder(
@@ -396,7 +489,7 @@ class _CalculationState extends State<Calculation> {
                         },
                         child: Text("Payment")),
                   ),
-                 // Text("current time : ${DateFormat().format(time)}"),
+                  // Text("current time : ${DateFormat().format(time)}"),
                 ],
               ),
             ),

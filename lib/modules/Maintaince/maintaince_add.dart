@@ -629,7 +629,7 @@ class _MaintenanceState extends State<Maintenance> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
-                                  return Calculation(
+                                  return CalculationInfo(
                                     floornum : floController.text,
                                   flatnum : flaController.text,
                                   name : nameController.text,

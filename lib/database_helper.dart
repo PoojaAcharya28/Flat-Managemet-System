@@ -33,9 +33,9 @@ class DatabaseHelper {
           cflat TEXT,
           c_com_area_unit INTEGER,
           c_unit_area_unit INTEGER,
-          amt_paid INTEGER
+          amt_paid INTEGER,
           status TEXT,
-          time TEXT, 
+          time TEXT
         )
       """);
       

@@ -5,6 +5,7 @@ import 'package:my_app/widgets/bottom_nav_bar.dart';
 import 'package:my_app/widgets/category_card.dart';
 
 import 'login.dart';
+import 'modules/Maintaince/calculation_display.dart';
 import 'modules/Maintaince/maintaince_add.dart';
 import 'modules/Resident/resident_add.dart';
 import 'modules/Resident/resident_detail_screen.dart';
@@ -179,6 +180,20 @@ class _DashBoardState extends State<DashBoard> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ResidentDisplaypage(),
+                              ),
+                            );
+                        },
+                      ),
+
+                       CategoryCard(
+                        title: "Calculation Records",
+                        svgSrc: "assets/icons/flat.svg",
+                        press: (){
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CalculationDisplaypage(),
                               ),
                             );
                         },
