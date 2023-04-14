@@ -113,20 +113,56 @@ class _CalculationDisplaypageState extends State<CalculationDisplaypage> {
                     ),
                     subtitle: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Floor Number : ' +
-                          '${calculation.cfloor} ,\n' +
-                          'Flat Number:' +
-                          '${calculation.cflat}, \n' +
-                          'Common unit area expenses :' +
-                          '${calculation.c_com_area_unit}, \n' +
-                          'Per unit area expenses : ' +
-                          '${calculation.c_unit_area_unit}, \n' +
-                          'Total payment amount :' +
-                          '${calculation.amt_paid}, \n' +
-                          'Payment Status :' +
-                          '${calculation.status}, \n' +
-                          'Payment Timing : ' +
-                          '${calculation.time}  '),
+
+                      child: RichText(
+    text: TextSpan(
+      children: <TextSpan>[
+        TextSpan(
+          text: 'Floor Number : ${calculation.cfloor} ,\n' +
+              'Flat Number: ${calculation.cflat}, \n' +
+              'Common unit area expenses : ${calculation.c_com_area_unit}, \n' +
+              'Per unit area expenses : ${calculation.c_unit_area_unit}, \n' ,
+             // 'Total payment amount : ${calculation.amt_paid}, \n',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        TextSpan(
+          text: 'Total payment amount : ${calculation.amt_paid}, \n',
+          style: TextStyle(
+            color: calculation.status == 'no' ? Colors.red : Colors.green,
+          ),
+        ),
+        TextSpan(
+          text: 'Payment Status : ${calculation.status}, \n',
+          style: TextStyle(
+            color: calculation.status == 'no' ? Colors.red : Colors.green,
+          ),
+        ),
+        TextSpan(
+          text: 'Payment Timing : ${calculation.time}  ',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+      ],
+    ),
+  ),
+                      // child: Text('Floor Number : ' +
+                      //     '${calculation.cfloor} ,\n' +
+                      //     'Flat Number:' +
+                      //     '${calculation.cflat}, \n' +
+                      //     'Common unit area expenses :' +
+                      //     '${calculation.c_com_area_unit}, \n' +
+                      //     'Per unit area expenses : ' +
+                      //     '${calculation.c_unit_area_unit}, \n' +
+                      //     'Total payment amount :' +
+                      //     '${calculation.amt_paid}, \n' +
+                      //     'Payment Status :' +
+                      //     '${calculation.status}, \n' +
+                      //     'Payment Timing : ' +
+                      //     '${calculation.time}  '),
+                      
                     ),
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
