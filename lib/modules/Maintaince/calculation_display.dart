@@ -3,6 +3,7 @@ import '../../database_helper.dart';
 import 'calculation.dart';
 import 'calculation_modal.dart';
 import 'maintaince_add.dart';
+import 'receipt.dart';
 
 class CalculationDisplaypage extends StatefulWidget {
   const CalculationDisplaypage({super.key});
@@ -40,7 +41,7 @@ class _CalculationDisplaypageState extends State<CalculationDisplaypage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-           Navigator.pushReplacement(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => Maintenance(),
@@ -106,94 +107,126 @@ class _CalculationDisplaypageState extends State<CalculationDisplaypage> {
                         await _fetchUsers(); //come back later okay after editing form
                       }
                     },
+                    // leading: ElevatedButton(onPressed: (){}, child: Text("Receipt")),
                     title: Padding(
                       padding: const EdgeInsets.all(8.0),
                       //child: Text(resident.fname,),
                       child: Text('${calculation.cname} '),
                     ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    subtitle: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
 
-                      child: RichText(
-    text: TextSpan(
-      children: <TextSpan>[
-        TextSpan(
-          text: 'Floor Number : ${calculation.cfloor} ,\n' +
-              'Flat Number: ${calculation.cflat}, \n' +
-              'Common unit area expenses : ${calculation.c_com_area_unit}, \n' +
-              'Per unit area expenses : ${calculation.c_unit_area_unit}, \n' ,
-             // 'Total payment amount : ${calculation.amt_paid}, \n',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-        TextSpan(
-          text: 'Total payment amount : ${calculation.amt_paid}, \n',
-          style: TextStyle(
-            color: calculation.status == 'no' ? Colors.red : Colors.green,
-          ),
-        ),
-        TextSpan(
-          text: 'Payment Status : ${calculation.status}, \n',
-          style: TextStyle(
-            color: calculation.status == 'no' ? Colors.red : Colors.green,
-          ),
-        ),
-        TextSpan(
-          text: 'Payment Timing : ${calculation.time}  ',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-      ],
-    ),
-  ),
-                      // child: Text('Floor Number : ' +
-                      //     '${calculation.cfloor} ,\n' +
-                      //     'Flat Number:' +
-                      //     '${calculation.cflat}, \n' +
-                      //     'Common unit area expenses :' +
-                      //     '${calculation.c_com_area_unit}, \n' +
-                      //     'Per unit area expenses : ' +
-                      //     '${calculation.c_unit_area_unit}, \n' +
-                      //     'Total payment amount :' +
-                      //     '${calculation.amt_paid}, \n' +
-                      //     'Payment Status :' +
-                      //     '${calculation.status}, \n' +
-                      //     'Payment Timing : ' +
-                      //     '${calculation.time}  '),
-                      
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: () async {
-                        bool confirmDelete = await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("Confirm Delete"),
-                              content: Text(
-                                  "Are you sure you want to delete this ${calculation.cname}?"),
-                              actions: [
-                                TextButton(
-                                  child: Text("Cancel"),
-                                  onPressed: () =>
-                                      Navigator.pop(context, false),
+                          child: RichText(
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: 'Floor Number : ${calculation.cfloor} ,\n' +
+                                      'Flat Number: ${calculation.cflat}, \n' +
+                                      'Common unit area expenses : ${calculation.c_com_area_unit}, \n' +
+                                      'Per unit area expenses : ${calculation.c_unit_area_unit}, \n',
+                                  // 'Total payment amount : ${calculation.amt_paid}, \n',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
                                 ),
-                                TextButton(
-                                  child: Text("Delete"),
-                                  onPressed: () => Navigator.pop(context, true),
+                                TextSpan(
+                                  text:
+                                      'Total payment amount : ${calculation.amt_paid}, \n',
+                                  style: TextStyle(
+                                    color: calculation.status == 'no'
+                                        ? Colors.red
+                                        : Colors.green,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text:
+                                      'Payment Status : ${calculation.status}, \n',
+                                  style: TextStyle(
+                                    color: calculation.status == 'no'
+                                        ? Colors.red
+                                        : Colors.green,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text:
+                                      'Payment Timing : ${calculation.time}  ',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ],
+                            ),
+                          ),
+                          // child: Text('Floor Number : ' +
+                          //     '${calculation.cfloor} ,\n' +
+                          //     'Flat Number:' +
+                          //     '${calculation.cflat}, \n' +
+                          //     'Common unit area expenses :' +
+                          //     '${calculation.c_com_area_unit}, \n' +
+                          //     'Per unit area expenses : ' +
+                          //     '${calculation.c_unit_area_unit}, \n' +
+                          //     'Total payment amount :' +
+                          //     '${calculation.amt_paid}, \n' +
+                          //     'Payment Status :' +
+                          //     '${calculation.status}, \n' +
+                          //     'Payment Timing : ' +
+                          //     '${calculation.time}  '),
+                        ),
+                        Container(
+                            alignment: Alignment.bottomLeft,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return ReceiptInfo();
+                                    }),
+                                  );
+                                },
+                                child: Text("Generate Receipt")))
+                      ],
+                    ),
+                    trailing: Column(
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            size: 30,
+                          ),
+                          onPressed: () async {
+                            bool confirmDelete = await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Confirm Delete"),
+                                  content: Text(
+                                      "Are you sure you want to delete this ${calculation.cname}?"),
+                                  actions: [
+                                    TextButton(
+                                      child: Text("Cancel"),
+                                      onPressed: () =>
+                                          Navigator.pop(context, false),
+                                    ),
+                                    TextButton(
+                                      child: Text("Delete"),
+                                      onPressed: () =>
+                                          Navigator.pop(context, true),
+                                    ),
+                                  ],
+                                );
+                              },
                             );
+                            if (confirmDelete != null && confirmDelete) {
+                              await DatabaseHelper.deleteCalculation(
+                                  calculation.id!);
+                              await _fetchUsers();
+                            }
                           },
-                        );
-                        if (confirmDelete != null && confirmDelete) {
-                          await DatabaseHelper.deleteCalculation(
-                              calculation.id!);
-                          await _fetchUsers();
-                        }
-                      },
+                        ),
+                        //TextButton(onPressed: (){}, child: Text("Receipt"))
+                      ],
                     ),
                   ),
                 ),
