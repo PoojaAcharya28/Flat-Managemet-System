@@ -27,38 +27,30 @@ class _MaintenanceState extends State<Maintenance> {
   final TextEditingController repairController = TextEditingController();
   final TextEditingController expensesController = TextEditingController();
 
-
   final TextEditingController electricalController = TextEditingController();
   final TextEditingController plumbingController = TextEditingController();
   final TextEditingController hvacController = TextEditingController();
   final TextEditingController structuralController = TextEditingController();
-  final TextEditingController unit_area_expensesController = TextEditingController();
-  
+  final TextEditingController unit_area_expensesController =
+      TextEditingController();
+
   String _valueFromElectricInfo = "";
 
-  
-
-
-
-  void calculateSum_commonarea(){
-    int value1 = int.tryParse(commonunitController.text) ?? 0; 
+  void calculateSum_commonarea() {
+    int value1 = int.tryParse(commonunitController.text) ?? 0;
     int value2 = int.tryParse(repairController.text) ?? 0;
     int common_area_sum = value1 + value2;
     expensesController.text = common_area_sum.toString();
-
   }
 
-  void calculateSum_unitarea(){
-    int value3 = int.tryParse(electricalController.text) ?? 0; 
-    int value4 = int.tryParse(plumbingController.text) ?? 0; 
-    int value5 = int.tryParse(hvacController.text) ?? 0; 
-    int value6 = int.tryParse(structuralController.text) ?? 0; 
-    int unit_area_sum = value3 + value4 +value5 + value6;
+  void calculateSum_unitarea() {
+    int value3 = int.tryParse(electricalController.text) ?? 0;
+    int value4 = int.tryParse(plumbingController.text) ?? 0;
+    int value5 = int.tryParse(hvacController.text) ?? 0;
+    int value6 = int.tryParse(structuralController.text) ?? 0;
+    int unit_area_sum = value3 + value4 + value5 + value6;
     unit_area_expensesController.text = unit_area_sum.toString();
-
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -239,7 +231,7 @@ class _MaintenanceState extends State<Maintenance> {
                       ),
                       Expanded(
                           child: TextFormField(
-                            keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.number,
                         controller: commonunitController,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
@@ -282,9 +274,8 @@ class _MaintenanceState extends State<Maintenance> {
                       ),
                       Expanded(
                           child: TextFormField(
-                            keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.number,
                         controller: repairController,
-                        
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
                           hintText: "0.00",
@@ -314,15 +305,16 @@ class _MaintenanceState extends State<Maintenance> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextButton(
-                            onPressed: calculateSum_commonarea, child: Text("Expenses")),
+                            onPressed: calculateSum_commonarea,
+                            child: Text("Expenses")),
                       ),
                       SizedBox(
                         width: 60.0,
                       ),
                       Expanded(
                           child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            controller: expensesController,
+                        keyboardType: TextInputType.number,
+                        controller: expensesController,
                         readOnly: true,
                         enabled: false,
                         textAlign: TextAlign.center,
@@ -359,35 +351,34 @@ class _MaintenanceState extends State<Maintenance> {
                             style: TextStyle(
                                 fontSize: 15.0, fontWeight: FontWeight.bold),
                           )),
-                      TextButton(onPressed: () {
-                        electricalController.text= '0.0';
-
-                      }, child: Text("No")),
                       TextButton(
-                          onPressed: () async{
+                          onPressed: () {
+                            electricalController.text = '0.0';
+                          },
+                          child: Text("No")),
+                      TextButton(
+                          onPressed: () async {
                             final result = await Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
                                 return ElectricInfo(
-                                  floornum : floController.text,
-                                  flatnum : flaController.text,
-                                  name : nameController.text
-                                );
+                                    floornum: floController.text,
+                                    flatnum: flaController.text,
+                                    name: nameController.text);
                               }),
                             );
 
                             setState(() {
-              _valueFromElectricInfo = result;
-              electricalController.text = _valueFromElectricInfo;
-            });
-
-                            
+                              _valueFromElectricInfo = result;
+                              electricalController.text =
+                                  _valueFromElectricInfo;
+                            });
                           },
                           child: Text("Yes")),
                       Expanded(
                           child: TextFormField(
-                            controller: electricalController,
-                            readOnly: true,
+                        controller: electricalController,
+                        readOnly: true,
                         enabled: false,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
@@ -418,32 +409,33 @@ class _MaintenanceState extends State<Maintenance> {
                             style: TextStyle(
                                 fontSize: 15.0, fontWeight: FontWeight.bold),
                           )),
-                      TextButton(onPressed: () {plumbingController.text= '0.0';}, child: Text("No")),
                       TextButton(
-                          onPressed: () async{
+                          onPressed: () {
+                            plumbingController.text = '0.0';
+                          },
+                          child: Text("No")),
+                      TextButton(
+                          onPressed: () async {
                             final result = await Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
                                 return PlumbingInfo(
-                                  floornum : floController.text,
-                                  flatnum : flaController.text,
-                                  name : nameController.text
-                                );
+                                    floornum: floController.text,
+                                    flatnum: flaController.text,
+                                    name: nameController.text);
                               }),
                             );
 
                             setState(() {
-              _valueFromElectricInfo = result;
-              plumbingController.text = _valueFromElectricInfo;
-            });
-
-                            
+                              _valueFromElectricInfo = result;
+                              plumbingController.text = _valueFromElectricInfo;
+                            });
                           },
                           child: Text("Yes")),
                       Expanded(
                           child: TextFormField(
-                            controller: plumbingController,
-                            readOnly: true,
+                        controller: plumbingController,
+                        readOnly: true,
                         enabled: false,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
@@ -474,34 +466,33 @@ class _MaintenanceState extends State<Maintenance> {
                             style: TextStyle(
                                 fontSize: 15.0, fontWeight: FontWeight.bold),
                           )),
-                      TextButton(onPressed: () {
-                        hvacController.text= '0.0';
-                      }, child: Text("No")),
                       TextButton(
-                          onPressed: () async{
+                          onPressed: () {
+                            hvacController.text = '0.0';
+                          },
+                          child: Text("No")),
+                      TextButton(
+                          onPressed: () async {
                             final result = await Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
                                 return HvacInfo(
-                                  floornum : floController.text,
-                                  flatnum : flaController.text,
-                                  name : nameController.text
-                                );
+                                    floornum: floController.text,
+                                    flatnum: flaController.text,
+                                    name: nameController.text);
                               }),
                             );
 
                             setState(() {
-              _valueFromElectricInfo = result;
-              hvacController.text = _valueFromElectricInfo;
-            });
-
-                            
+                              _valueFromElectricInfo = result;
+                              hvacController.text = _valueFromElectricInfo;
+                            });
                           },
                           child: Text("Yes")),
                       Expanded(
                           child: TextFormField(
-                            controller: hvacController,
-                            readOnly: true,
+                        controller: hvacController,
+                        readOnly: true,
                         enabled: false,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
@@ -532,34 +523,34 @@ class _MaintenanceState extends State<Maintenance> {
                             style: TextStyle(
                                 fontSize: 15.0, fontWeight: FontWeight.bold),
                           )),
-                      TextButton(onPressed: () {
-                        structuralController.text= '0.0';
-                      }, child: Text("No")),
                       TextButton(
-                          onPressed: () async{
+                          onPressed: () {
+                            structuralController.text = '0.0';
+                          },
+                          child: Text("No")),
+                      TextButton(
+                          onPressed: () async {
                             final result = await Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) {
                                 return StructureInfo(
-                                  floornum : floController.text,
-                                  flatnum : flaController.text,
-                                  name : nameController.text
-                                );
+                                    floornum: floController.text,
+                                    flatnum: flaController.text,
+                                    name: nameController.text);
                               }),
                             );
 
                             setState(() {
-              _valueFromElectricInfo = result;
-              structuralController.text = _valueFromElectricInfo;
-            });
-
-                            
+                              _valueFromElectricInfo = result;
+                              structuralController.text =
+                                  _valueFromElectricInfo;
+                            });
                           },
                           child: Text("Yes")),
                       Expanded(
                           child: TextFormField(
-                            controller: structuralController,
-                            readOnly: true,
+                        controller: structuralController,
+                        readOnly: true,
                         enabled: false,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
@@ -599,8 +590,7 @@ class _MaintenanceState extends State<Maintenance> {
                       ),
                       Expanded(
                           child: TextFormField(
-                            controller: unit_area_expensesController,
-
+                        controller: unit_area_expensesController,
                         readOnly: true,
                         enabled: false,
                         textAlign: TextAlign.center,
@@ -630,11 +620,13 @@ class _MaintenanceState extends State<Maintenance> {
                                 context,
                                 MaterialPageRoute(builder: (context) {
                                   return CalculationInfo(
-                                    floornum : floController.text,
-                                  flatnum : flaController.text,
-                                  name : nameController.text,
-                                  common_area_expenses : expensesController.text,
-                                  unit_area_expenses : unit_area_expensesController.text, 
+                                    floornum: floController.text,
+                                    flatnum: flaController.text,
+                                    name: nameController.text,
+                                    common_area_expenses:
+                                        expensesController.text,
+                                    unit_area_expenses:
+                                        unit_area_expensesController.text,
                                   );
                                 }),
                               );
