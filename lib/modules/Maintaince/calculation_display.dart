@@ -117,7 +117,6 @@ class _CalculationDisplaypageState extends State<CalculationDisplaypage> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-
                           child: RichText(
                             text: TextSpan(
                               children: <TextSpan>[
@@ -159,20 +158,6 @@ class _CalculationDisplaypageState extends State<CalculationDisplaypage> {
                               ],
                             ),
                           ),
-                          // child: Text('Floor Number : ' +
-                          //     '${calculation.cfloor} ,\n' +
-                          //     'Flat Number:' +
-                          //     '${calculation.cflat}, \n' +
-                          //     'Common unit area expenses :' +
-                          //     '${calculation.c_com_area_unit}, \n' +
-                          //     'Per unit area expenses : ' +
-                          //     '${calculation.c_unit_area_unit}, \n' +
-                          //     'Total payment amount :' +
-                          //     '${calculation.amt_paid}, \n' +
-                          //     'Payment Status :' +
-                          //     '${calculation.status}, \n' +
-                          //     'Payment Timing : ' +
-                          //     '${calculation.time}  '),
                         ),
                         Container(
                             alignment: Alignment.bottomLeft,
@@ -181,7 +166,15 @@ class _CalculationDisplaypageState extends State<CalculationDisplaypage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (context) {
-                                      return ReceiptInfo();
+                                      return ReceiptInfo(
+                                        rname: calculation.cname ??
+                                            '', // using the null-aware operator
+                                        rpayAmt: calculation.amt_paid
+                                            .toString(), // providing a default value
+                                        rpayDate: calculation.time ??
+                                            DateTime.now().toString(),
+                                            rstatus : calculation.status ?? '',
+                                      );
                                     }),
                                   );
                                 },
@@ -238,3 +231,18 @@ class _CalculationDisplaypageState extends State<CalculationDisplaypage> {
     );
   }
 }
+
+// child: Text('Floor Number : ' +
+                          //     '${calculation.cfloor} ,\n' +
+                          //     'Flat Number:' +
+                          //     '${calculation.cflat}, \n' +
+                          //     'Common unit area expenses :' +
+                          //     '${calculation.c_com_area_unit}, \n' +
+                          //     'Per unit area expenses : ' +
+                          //     '${calculation.c_unit_area_unit}, \n' +
+                          //     'Total payment amount :' +
+                          //     '${calculation.amt_paid}, \n' +
+                          //     'Payment Status :' +
+                          //     '${calculation.status}, \n' +
+                          //     'Payment Timing : ' +
+                          //     '${calculation.time}  '),
