@@ -32,11 +32,12 @@ class _DashBoardState extends State<DashBoard> {
     var size = MediaQuery.of(context).size; //total height of my phone
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      bottomNavigationBar: BottomNavBar(),
+      //bottomNavigationBar: BottomNavBar(),
       body: Stack(
         children: <Widget>[
           Container(
-            color: Color(0xDCDCDC),
+            color: Color.fromARGB(115, 202, 199, 199),
+            
           ),
           Container(
             height: size.height * .45, //45% of total height
