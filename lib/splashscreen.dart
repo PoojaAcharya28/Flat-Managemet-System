@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dashboard.dart';
 import 'login.dart';
 import 'phone.dart';
 
@@ -42,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     Timer(Duration(seconds: 5), () {
       Navigator.pushReplacement(context,
-       MaterialPageRoute(builder: (context) => MyPhone(),));
+       MaterialPageRoute(builder: (context) => DashBoard(),));
      });
   }
 

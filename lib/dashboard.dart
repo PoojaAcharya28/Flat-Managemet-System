@@ -36,7 +36,7 @@ class _DashBoardState extends State<DashBoard> {
       body: Stack(
         children: <Widget>[
           Container(
-            color: Color.fromARGB(115, 202, 199, 199),
+            color: Color.fromARGB(84, 202, 199, 199),
             
           ),
           Container(
