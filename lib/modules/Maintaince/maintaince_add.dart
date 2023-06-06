@@ -448,7 +448,7 @@ class _MaintenanceState extends State<Maintenance> {
                         ),
                       )),
                     ],
-                  ),
+                  ),  
 
                   SizedBox(
                     height: 10.0,
